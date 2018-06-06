@@ -1,0 +1,91 @@
+{
+  "name": "waves-app",
+  "scripts": {
+    "postdeploy": "OK_TO_SEED=true bundle exec rake db:schema:load db:seed submissions:load"
+  },
+  "env": {
+    "APPLICATION_HOST": {
+      "required": true
+    },
+    "ASSET_HOST": {
+      "required": true
+    },
+    "EMAIL_FROM": {
+      "required": true
+    },
+    "HEROKU_APP_ID": {
+      "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
+    },
+    "HEROKU_RELEASE_CREATED_AT": {
+      "required": true
+    },
+    "HEROKU_RELEASE_VERSION": {
+      "required": true
+    },
+    "HEROKU_SLUG_COMMIT": {
+      "required": true
+    },
+    "HEROKU_SLUG_DESCRIPTION": {
+      "required": true
+    },
+    "LANG": {
+      "required": true
+    },
+    "POSTCODE_LOOKUP_API_KEY": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "RAILS_ENV": {
+      "required": true
+    },
+    "RAILS_LOG_TO_STDOUT": {
+      "required": true
+    },
+    "RAILS_SERVE_STATIC_FILES": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    },
+    "SENDGRID_PASSWORD": {
+      "required": true
+    },
+    "SENDGRID_USERNAME": {
+      "required": true
+    },
+    "SMTP_ADDRESS": {
+      "required": true
+    },
+    "SMTP_DOMAIN": {
+      "required": true
+    },
+    "SMTP_PASSWORD": {
+      "required": true
+    },
+    "SMTP_USERNAME": {
+      "required": true
+    }
+  },
+  "formation": {
+    "worker": {
+      "quantity": 1
+    },
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql",
+    "sendgrid"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}
