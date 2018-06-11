@@ -11,6 +11,7 @@ gem "bootstrap-multiselect-rails"
 gem "bootstrap-sass", "~> 3.3.6"
 gem "bootstrap3-datetimepicker-rails"
 gem "business_time"
+gem "clockwork", require: false
 gem "cocoon"
 gem "coffee-rails"
 gem "countries"
@@ -55,7 +56,6 @@ gem "uglifier"
 gem "validates_email_format_of"
 gem "waves-utilities",
     git: "https://github.com/mcagov/waves-utilities.git"
-gem "whenever", require: false
 gem "will_paginate-bootstrap"
 
 group :development do
