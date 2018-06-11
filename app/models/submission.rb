@@ -81,10 +81,6 @@ class Submission < ApplicationRecord
     changeset.blank? ? {} : changeset.deep_symbolize_keys!
   end
 
-  def symbolized_registry_info
-    registry_info.blank? ? {} : registry_info.deep_symbolize_keys!
-  end
-
   def payment
     payments.first
   end

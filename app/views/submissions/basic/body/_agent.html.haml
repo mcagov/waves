@@ -1,4 +1,4 @@
-- registry_agent = @submission.registry_agent
+- registry_agent = @submission.registered_vessel.try(:agent) || Register::Agent.new
 %table.table.table-striped#agent
   %thead
     %th Agent

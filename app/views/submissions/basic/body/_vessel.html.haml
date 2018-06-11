@@ -1,4 +1,4 @@
-- registry_vessel = @submission.registry_vessel
+- registered_vessel = @submission.registered_vessel || Register::Vessel.new
 %table.table.table-striped.table-fluid.submission-vessel
   %thead
     %th Vessel Details
@@ -13,7 +13,7 @@
       %td{width: "30%"} Vessel Name
 
       - if @submission.display_registry_info?
-        %td#registry-vessel-name{width: "30%"}= registry_vessel.name
+        %td#registry-vessel-name{width: "30%"}= registered_vessel.name
 
       - if @submission.display_changeset?
         %td#vessel-name
@@ -21,7 +21,7 @@
             - if @submission.uneditable?
               = vessel.name
             - else
-              = compare_reg_info vessel.name, registry_vessel.name
+              = compare_reg_info vessel.name, registered_vessel.name
             .i.fa.fa-star-o.hidden
           .pull-right
             = vessel.alt_names.join(', ')
@@ -29,7 +29,7 @@
       %td Hull Identification Number (HIN)
 
       - if @submission.display_registry_info?
-        %td= registry_vessel.hin
+        %td= registered_vessel.hin
 
       - if @submission.display_changeset?
         %td#vessel-hin
@@ -37,13 +37,13 @@
             - if @submission.uneditable?
               = vessel.hin
             - else
-              = compare_reg_info vessel.hin, registry_vessel.hin
+              = compare_reg_info vessel.hin, registered_vessel.hin
             .i.fa.fa-star-o.hidden
     %tr
       %td Make and model
 
       - if @submission.display_registry_info?
-        %td= registry_vessel.make_and_model
+        %td= registered_vessel.make_and_model
 
       - if @submission.display_changeset?
         %td#vessel-make_and_model
@@ -51,12 +51,12 @@
             - if @submission.uneditable?
               = vessel.make_and_model
             - else
-              = compare_reg_info vessel.make_and_model, registry_vessel.make_and_model
+              = compare_reg_info vessel.make_and_model, registered_vessel.make_and_model
     %tr
       %td Length
 
       - if @submission.display_registry_info?
-        %td= registry_vessel.length_in_meters
+        %td= registered_vessel.length_in_meters
 
       - if @submission.display_changeset?
         %td#vessel-length_in_meters
@@ -64,12 +64,12 @@
             - if @submission.uneditable?
               = vessel.length_in_meters
             - else
-            = compare_reg_info vessel.length_in_meters, registry_vessel.length_in_meters
+            = compare_reg_info vessel.length_in_meters, registered_vessel.length_in_meters
     %tr
       %td Number of hulls
 
       - if @submission.display_registry_info?
-        %td= registry_vessel.number_of_hulls
+        %td= registered_vessel.number_of_hulls
 
       - if @submission.display_changeset?
         %td#vessel-number_of_hulls
@@ -77,12 +77,12 @@
             - if @submission.uneditable?
               = vessel.number_of_hulls
             - else
-              = compare_reg_info vessel.number_of_hulls, registry_vessel.number_of_hulls
+              = compare_reg_info vessel.number_of_hulls, registered_vessel.number_of_hulls
     %tr
       %td Vessel type
 
       - if @submission.display_registry_info?
-        %td= registry_vessel.vessel_type
+        %td= registered_vessel.vessel_type
 
       - if @submission.display_changeset?
         %td#vessel-vessel_type
@@ -90,7 +90,7 @@
             - if @submission.uneditable?
               = vessel.vessel_type
             - else
-              = compare_reg_info vessel.vessel_type, registry_vessel.vessel_type
+              = compare_reg_info vessel.vessel_type, registered_vessel.vessel_type
     %tr
       %td Vessel type (other)
 
@@ -104,12 +104,12 @@
             - if @submission.uneditable?
               = vessel.vessel_type_other
             - else
-              = compare_reg_info vessel.vessel_type_other, registry_vessel.vessel_type_other
+              = compare_reg_info vessel.vessel_type_other, registered_vessel.vessel_type_other
     %tr
       %td MMSI Number
 
       - if @submission.display_registry_info?
-        %td= registry_vessel.mmsi_number
+        %td= registered_vessel.mmsi_number
 
       - if @submission.display_changeset?
         %td#vessel-mmsi_number
@@ -117,13 +117,13 @@
             - if @submission.uneditable?
               = vessel.mmsi_number
             - else
-              = compare_reg_info vessel.mmsi_number, registry_vessel.mmsi_number
+              = compare_reg_info vessel.mmsi_number, registered_vessel.mmsi_number
             .i.fa.fa-star-o.hidden
     %tr
       %td Radio Call Sign
 
       - if @submission.display_registry_info?
-        %td= registry_vessel.radio_call_sign
+        %td= registered_vessel.radio_call_sign
 
       - if @submission.display_changeset?
         %td#vessel-radio_call_sign
@@ -131,5 +131,5 @@
             - if @submission.uneditable?
               = vessel.radio_call_sign
             - else
-              = compare_reg_info vessel.radio_call_sign, registry_vessel.radio_call_sign
+              = compare_reg_info vessel.radio_call_sign, registered_vessel.radio_call_sign
             .i.fa.fa-star-o.hidden

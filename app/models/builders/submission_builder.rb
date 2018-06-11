@@ -18,7 +18,6 @@ class Builders::SubmissionBuilder # rubocop:disable Metrics/ClassLength
     end
 
     def perform
-      build_registry_info if @submission.registered_vessel
       build_changeset if @submission.registered_vessel
 
       perform_changeset_operations if @submission.changeset
@@ -38,17 +37,10 @@ class Builders::SubmissionBuilder # rubocop:disable Metrics/ClassLength
       build_service_level
     end
 
-    def build_registry_info
-      return unless @submission.registry_info.blank?
-
-      @submission.registry_info =
-        @submission.registered_vessel.registry_info
-    end
-
     def build_changeset
       return unless @submission.changeset.blank?
 
-      @submission.changeset = @submission.registry_info
+      @submission.changeset = @submission.registered_vessel.try(:registry_info)
     end
 
     # Here we need to protect against re-building the owner declarations.
