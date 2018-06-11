@@ -9,7 +9,7 @@ applications:
 - name: mca-waves-worker
   memory: 512M
   buildpack: ruby_buildpack
-  command: bundle exec rake jobs:work
+  command: bundle exec rake jobs:work && clockwork lib/clock.rb
   no-route: true
   timeout: 90
   health-check-type: process
