@@ -5,7 +5,7 @@ class FinancePaymentsController < InternalPagesController
     respond_to do |format|
       format.pdf do
         @pdf = Pdfs::Processor.run(:payment_receipt, @finance_payment)
-        render_pdf(@pdf, "#{@template}.pdf")
+        render_pdf(@pdf, @pdf.filename)
       end
     end
   end

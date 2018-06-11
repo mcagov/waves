@@ -2,6 +2,14 @@
 class Pdfs::Extended::TranscriptWriter < Pdfs::TranscriptWriter
   private
 
+  def mortgages
+    @mortgages ||= @vessel.mortgages.not_discharged
+  end
+
+  def display_mortgages?
+    Policies::Definitions.mortgageable?(@vessel)
+  end
+
   def owner_details_for_part
     y_pos = 700
     @owners.each do |owner|
@@ -32,12 +40,15 @@ class Pdfs::Extended::TranscriptWriter < Pdfs::TranscriptWriter
       end
     end
 
-    mortgage_details_for_part(y_pos) if Policies::Definitions.mortgageable?(@vessel)
     draw_page_count
+    mortgage_details_for_part if display_mortgages?
   end
 
-  def mortgage_details_for_part(y_pos)
-    y_pos -= 10
+  def mortgage_details_for_part
+    @pdf.start_new_page
+    @current_page += 1
+
+    y_pos = 780
     @pdf.bounding_box([l_margin, y_pos], width: 510) { @pdf.stroke_horizontal_rule }
 
     @pdf.draw_text "The following details show the mortgages/mortgage intents "\
@@ -50,32 +61,25 @@ class Pdfs::Extended::TranscriptWriter < Pdfs::TranscriptWriter
 
     y_pos -= 70
 
-    mortgages = @vessel.mortgages.not_discharged
 
     if mortgages.empty?
       default_value_font
       @pdf.draw_text "None", at: [l_margin, y_pos]
+      draw_page_count
       return
     end
 
-    # start with an index of 1 to compensate for the owner details
-    # printed above the first mortgages
-    current_index = 1
-    @total_pages = 2
-    @total_pages += mortgages.length / 2 if mortgages.length > 1
-
-    mortgages.each do |mortgage|
-      if current_index == 0
-        draw_page_count
-        @current_page += 1
+    mortgages.each_with_index do |mortgage, index|
+      if index == 0
+        y_pos = 680
+      else
         @pdf.start_new_page
         y_pos = 780
       end
 
-      current_index += 1
       y_pos = draw_mortgage(mortgage, l_margin, y_pos)
-      # allow 4 mortgages per page
-      current_index = 0 if current_index == 2
+      draw_page_count
+      @current_page += 1
     end
   end
 
@@ -106,7 +110,7 @@ class Pdfs::Extended::TranscriptWriter < Pdfs::TranscriptWriter
       @pdf.draw_text mortgagor.name, at: [l_margin, y_pos]
       @pdf.text_box mortgagor.inline_address, width: 400, height: 30, at: [l_margin, y_pos - 5]
 
-      y_pos -= 30
+      y_pos -= 50
     end
 
     default_label_font
@@ -132,7 +136,6 @@ class Pdfs::Extended::TranscriptWriter < Pdfs::TranscriptWriter
     @pdf.draw_text "Date executed", at: [l_margin, y_pos]
     default_value_font
     @pdf.draw_text mortgage.executed_at, at: [l_margin + 140, y_pos]
-    @pdf.bounding_box([l_margin, y_pos - 15], width: 510) { @pdf.stroke_horizontal_rule }
     y_pos -= 35
     y_pos
   end
@@ -161,11 +164,19 @@ class Pdfs::Extended::TranscriptWriter < Pdfs::TranscriptWriter
     40
   end
 
+  def total_pages
+    @total_pages ||=
+      if display_mortgages?
+        mortgages.empty? ? 3 : (mortgages.length + 2)
+      else
+        2
+      end
+  end
+
   def draw_page_count
     @current_page ||= 2
-    @total_pages ||= 2
-
-    @pdf.text_box "Page #{@current_page} of #{@total_pages}", width: 500,
+    default_label_font
+    @pdf.text_box "Page #{@current_page} of #{total_pages}", width: 500,
         at: [262, 40]
   end
 end
