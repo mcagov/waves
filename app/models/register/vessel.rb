@@ -4,7 +4,20 @@ module Register
     include Register::TerminationStateMachine
 
     multisearchable against:
-      [:reg_no, :name, :mmsi_number, :radio_call_sign, :imo_number, :hin, :pln]
+      [
+        :reg_no,
+        :name,
+        :mmsi_number,
+        :radio_call_sign,
+        :imo_number,
+        :hin,
+        :pln,
+        :owner_info
+      ]
+
+    def owner_info
+      owners.map(&:inline_name_and_address).join("; ")
+    end
 
     validates :part, presence: true
     validates :reg_no, presence: true
