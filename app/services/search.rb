@@ -3,7 +3,7 @@ class Search
     def submissions(term, part = nil)
       submissions = PgSearch.multisearch(term)
                             .where(searchable_type: "Submission")
-                            .includes(:searchable)
+                            .includes(searchable: [declarations: :owner])
       submissions = submissions_in_part(submissions, part)
       submissions.limit(20).map(&:searchable)
     end
@@ -11,7 +11,7 @@ class Search
     def vessels(term, part = nil)
       vessels = PgSearch.multisearch(term)
                         .where(searchable_type: "Register::Vessel")
-                        .includes(:searchable)
+                        .includes(searchable: [:owners, :submissions])
       vessels = vessels_in_part(vessels, part)
       vessels.limit(20).map(&:searchable)
     end

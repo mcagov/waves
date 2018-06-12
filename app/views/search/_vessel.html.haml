@@ -3,7 +3,6 @@
   %td
     = link_to vessel_path(vessel), class: "search-result" do
       = vessel.name
-    %span.pull-right.label.label-success VESSEL
     %br
     = vessel.vessel_type
     %br
@@ -14,9 +13,13 @@
     MMSI: #{vessel.mmsi_number}
     %br
     HIN: #{vessel.hin}
-    %br
-    PLN: #{vessel.pln}
 
+    - if Policies::Workflow.uses_port_no?(vessel)
+      %br
+      PLN: #{vessel.pln}
+
+  %td
+    Last updated: #{vessel.updated_at}
     - unless submissions.empty?
       %br
       = link_to "#",
@@ -24,4 +27,9 @@
         "data-toggle" => "collapse" do
         &gt;
         = pluralize(submissions.length, "open application")
+
+  %td
+    = render partial: "/shared/registration_status", locals: { registration_status: vessel.registration_status }
+
+
 

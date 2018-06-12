@@ -10,7 +10,9 @@
 
     %ul#searchResultsTab.tab-content
       #vessels_tab.tab-pane.fade.active.in
-        = render partial: "/search/vessels", locals: { vessels: @vessels }
+        .col-md-11
+          = render partial: "/search/vessels", locals: { vessels: @vessels }
 
       #submissions_tab.tab-pane.fade
-        = render partial: "/search/submissions", locals: { submissions: @submissions }
+        .col-md-11
+          = render partial: "/search/submissions", locals: { submissions: @submissions }
