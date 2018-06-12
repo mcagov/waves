@@ -22,7 +22,7 @@ describe "User searches within part 3" do
     end
 
     scenario "searching by owner postcode" do
-      create(:submission)
+      create(:unassigned_submission)
 
       within(".nav_menu") { search_for("QZ2 3Q") }
 
