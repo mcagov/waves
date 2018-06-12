@@ -1,7 +1,11 @@
 class Search
   class << self
     def submissions(term, part = nil)
-      Submission.in_part(part).limit(20).scoped_search(term)
+      submissions = PgSearch.multisearch(term)
+                            .where(searchable_type: "Submission")
+                            .includes(:searchable)
+      submissions = submissions_in_part(submissions, part)
+      submissions.limit(20).map(&:searchable)
     end
 
     def vessels(term, part = nil)
@@ -44,6 +48,14 @@ class Search
       arel.joins("LEFT JOIN vessels ON (vessels.id =
                  pg_search_documents.searchable_id)"
                 ).where("vessels.part = ?", part)
+    end
+
+    def submissions_in_part(arel, part)
+      return arel unless part
+
+      arel.joins("LEFT JOIN submissions ON (submissions.id =
+                 pg_search_documents.searchable_id)"
+                ).where("submissions.part = ?", part)
     end
   end
 end

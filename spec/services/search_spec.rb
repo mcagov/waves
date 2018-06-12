@@ -2,14 +2,46 @@ require "rails_helper"
 
 describe Search, type: :model do
   context ".submissions" do
-    context "uses pg_search_scope" do
-      before do
-        expect(Submission).to receive(:scoped_search).with("foo")
+    context "search by vessel name" do
+      let!(:submission) { create(:submission) }
+      let!(:part) { nil }
+
+      subject { Search.submissions("Boaty McBoatface", part) }
+
+      it { expect(subject.first).to eq(submission) }
+
+      context "in part_1" do
+        let(:part) { :part_1 }
+
+        it { expect(subject).to be_empty }
       end
 
-      subject { Search.submissions("foo") }
+      context "in part_3" do
+        let(:part) { :part_3 }
 
-      it { subject }
+        it { expect(subject.length).to eq(1) }
+      end
+    end
+
+    context "search by ref no" do
+      let!(:submission) { create(:submission) }
+      let!(:part) { nil }
+
+      subject { Search.submissions(submission.ref_no, part) }
+
+      it { expect(subject.first).to eq(submission) }
+
+      context "in part_1" do
+        let(:part) { :part_1 }
+
+        it { expect(subject).to be_empty }
+      end
+
+      context "in part_3" do
+        let(:part) { :part_3 }
+
+        it { expect(subject.length).to eq(1) }
+      end
     end
   end
 

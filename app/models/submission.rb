@@ -4,9 +4,13 @@ class Submission < ApplicationRecord
   include Submission::Reporting
 
   include PgSearch
-  pg_search_scope :scoped_search,
-                  against: [:ref_no, :changeset],
-                  using: { tsearch: { prefix: true } }
+  multisearchable against:
+    [
+      :ref_no,
+      :vessel_reg_no,
+      :vessel_search_attributes,
+      :owner_search_attributes,
+    ]
 
   validates :part, presence: true
   validates :source, presence: true
@@ -140,5 +144,14 @@ class Submission < ApplicationRecord
           "was not found in the #{Activity.new(part)} Registry")
       end
     end
+  end
+
+  def vessel_search_attributes
+    vessel.search_attributes
+  end
+
+  def owner_search_attributes
+    return if declarations.empty?
+    owners.map(&:inline_name_and_address).join("; ")
   end
 end
