@@ -31,7 +31,7 @@ describe Search, type: :model do
       context "in part_3" do
         let(:part) { :part_3 }
 
-         it { expect(subject.first).to eq(vessel) }
+        it { expect(subject.first).to eq(vessel) }
       end
     end
   end
