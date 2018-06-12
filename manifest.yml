@@ -9,7 +9,14 @@ applications:
 - name: mca-waves-worker
   memory: 512M
   buildpack: ruby_buildpack
-  command: bundle exec bin/delayed_job start && clockwork lib/clock.rb
+  command: bundle exec bin/delayed_job start
+  no-route: true
+  timeout: 90
+  health-check-type: process
+- name: mca-waves-scheduler
+  memory: 128M
+  buildpack: ruby_buildpack
+  command: bundle exec clockwork lib/clock.rb
   no-route: true
   timeout: 90
   health-check-type: process
