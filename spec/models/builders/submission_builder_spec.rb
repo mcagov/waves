@@ -130,8 +130,8 @@ describe Builders::SubmissionBuilder do
 
       context "when the changeset is blank" do
         it "builds the changeset from the registry_info" do
-          expect(submission.symbolized_changeset[:vessel_info])
-            .to eq(submission.symbolized_registry_info[:vessel_info])
+          expect(submission.vessel.name)
+            .to eq(submission.symbolized_registry_info[:vessel_info][:name])
         end
       end
 
