@@ -16,10 +16,23 @@ describe Search, type: :model do
   context ".vessels" do
     context "search by vessel name" do
       let!(:vessel) { create(:registered_vessel, name: "BOBS BOAT") }
+      let!(:part) { nil }
 
-      subject { Search.vessels("BOB") }
+      subject { Search.vessels("BOB", part) }
 
       it { expect(subject.first).to eq(vessel) }
+
+      context "in part_1" do
+        let(:part) { :part_1 }
+
+        it { expect(subject).to be_empty }
+      end
+
+      context "in part_3" do
+        let(:part) { :part_3 }
+
+         it { expect(subject.first).to eq(vessel) }
+      end
     end
   end
 

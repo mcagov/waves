@@ -4,20 +4,12 @@ class Search
       Submission.in_part(part).limit(20).scoped_search(term)
     end
 
-    # looks up a vessel to help user complete
-    # a finance payment or document entry form
     def vessels(term, part = nil)
       vessels = PgSearch.multisearch(term)
                         .where(searchable_type: "Register::Vessel")
-                        .limit(20)
                         .includes(:searchable)
-                        .map(&:searchable)
-      # temporary #in_part implementation
-      if part
-        vessels.select { |vessel| vessel.part.to_sym == part }
-      else
-        vessels
-      end
+      vessels = vessels_in_part(vessels, part)
+      vessels.limit(20).map(&:searchable)
     end
 
     # looks for submissions for the same vessel
@@ -42,6 +34,16 @@ class Search
         .or(Register::Vessel
           .where(["radio_call_sign = ? and radio_call_sign <> ''",
                   vessel.radio_call_sign]))
+    end
+
+    private
+
+    def vessels_in_part(arel, part)
+      return arel unless part
+
+      arel.joins("LEFT JOIN vessels ON (vessels.id =
+                 pg_search_documents.searchable_id)"
+                ).where("vessels.part = ?", part)
     end
   end
 end
