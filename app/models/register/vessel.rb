@@ -12,7 +12,7 @@ module Register
         :imo_number,
         :hin,
         :pln,
-        :owner_info
+        :owner_info,
       ]
 
     def owner_info
