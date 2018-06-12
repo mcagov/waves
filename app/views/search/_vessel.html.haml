@@ -13,23 +13,27 @@
     MMSI: #{vessel.mmsi_number}
     %br
     HIN: #{vessel.hin}
-
     - if Policies::Workflow.uses_port_no?(vessel)
       %br
       PLN: #{vessel.pln}
+  %td
+    Owners: #{vessel.owners.map(&:inline_name_and_address).join("<br/>")}
+    %br
+    Last updated: #{vessel.updated_at}
 
   %td
-    Last updated: #{vessel.updated_at}
-    - unless submissions.empty?
-      %br
+    = render partial: "/shared/registration_status", locals: { registration_status: vessel.registration_status }
+- unless submissions.empty?
+  %tr
+    %td{colspan: 3}
       = link_to "#",
         "data-target" => "#vessel_submissions_#{vessel.id}",
         "data-toggle" => "collapse" do
         &gt;
         = pluralize(submissions.length, "open application")
-
-  %td
-    = render partial: "/shared/registration_status", locals: { registration_status: vessel.registration_status }
-
+      .collapse{ id: "vessel_submissions_#{vessel.id}" }
+        %table.table
+          %tbody
+            = render partial: "/search/submission", collection: submissions
 
 
