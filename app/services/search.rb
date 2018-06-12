@@ -10,6 +10,7 @@ class Search
       vessels = PgSearch.multisearch(term)
                         .where(searchable_type: "Register::Vessel")
                         .limit(20)
+                        .includes(:searchable)
                         .map(&:searchable)
       # temporary #in_part implementation
       if part
