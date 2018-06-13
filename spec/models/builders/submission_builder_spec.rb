@@ -51,10 +51,6 @@ describe Builders::SubmissionBuilder do
         end
       end
 
-      it "does not build the registry info" do
-        expect(submission.registry_info).to be_nil
-      end
-
       it "does not alter the changeset" do
         expect(submission.changeset).to eq(changeset)
       end

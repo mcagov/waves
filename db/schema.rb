@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_01_104942) do
+ActiveRecord::Schema.define(version: 2018_06_08_133030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -427,7 +427,6 @@ ActiveRecord::Schema.define(version: 2018_06_01_104942) do
     t.string "source"
     t.boolean "officer_intervention_required", default: false
     t.uuid "registered_vessel_id"
-    t.json "registry_info"
     t.string "applicant_name"
     t.string "applicant_email"
     t.boolean "applicant_is_agent", default: false
