@@ -7,12 +7,25 @@
     %ul.nav.child_menu{:style => "display: none"}
       %li= link_to "My Tasks", tasks_my_tasks_path
       %li= link_to "Team Tasks", tasks_team_tasks_path
-      %li= link_to "Fees Received", tasks_fee_entry_path
-      %li= link_to "Refunds Due", tasks_refunds_due_path
       %li= link_to "Unclaimed Tasks", tasks_unclaimed_path
-      %li= link_to "Referred Applications", tasks_referred_path
-      %li= link_to "Cancelled Applications", tasks_cancelled_path
-      %li= link_to "Incomplete Applications", tasks_incomplete_path
+      %li= link_to "Referred Tasks", tasks_referred_path
+      %li= link_to "Cancelled Tasks", tasks_cancelled_path
+  %li
+    %a
+      %i.fa.fa-gbp
+      Finance Payments
+      %span.fa.fa-chevron-down
+    %ul.nav.child_menu{:style => "display: none"}
+      %li= link_to "Fees Received", unattached_payments_finance_payments_path
+      %li= link_to "Refunds Due", unattached_refunds_finance_payments_path
+  %li
+    %a
+      %i.fa.fa-folder-open
+      Applications
+      %span.fa.fa-chevron-down
+    %ul.nav.child_menu{:style => "display: none"}
+      %li= link_to "Open Applications", open_submissions_path
+      %li= link_to "Completed Applications", completed_submissions_path
   %li
     %a
       %i.fa.fa-print

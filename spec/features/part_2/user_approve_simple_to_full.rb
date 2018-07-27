@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User approves a 'Simple to Full' task", type: :feature, js: :true do
+xfeature "User approves a 'Simple to Full' task", type: :feature, js: :true do
   before do
     visit_name_approved_part_2_simple_to_full_submission
   end

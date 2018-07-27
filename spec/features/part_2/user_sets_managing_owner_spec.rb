@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User sets the managing owner", js: true do
+xdescribe "User sets the managing owner", js: true do
   scenario "adding an owner and setting them as managing owner" do
     visit_name_approved_part_2_submission
     click_on("Owners & Shareholding")

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User issues a 7 Day Notice", type: :feature, js: true do
+xdescribe "User issues a 7 Day Notice", type: :feature, js: true do
   scenario "when a 30 day section notice has been issued" do
     login_to_part_3
     vessel = create(:registered_vessel)

@@ -1,0 +1,6 @@
+= simple_form_for submission_task do |f|
+  = f.input :service_id, as: :hidden
+  = f.input :service_level, as: :hidden
+  = button_tag(type: 'submit', class: 'btn btn-success btn-sm') do
+    = formatted_amount(submission_task.price)
+

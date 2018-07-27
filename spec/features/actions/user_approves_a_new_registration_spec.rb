@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User approves a new registration", type: :feature, js: true do
+xfeature "User approves a new registration", type: :feature, js: true do
   before do
     visit_assigned_submission
     expect_edit_application_button(true)

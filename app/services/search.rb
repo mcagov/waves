@@ -16,14 +16,6 @@ class Search
       vessels.limit(20).map(&:searchable)
     end
 
-    # looks for submissions for the same vessel
-    # to help a reg officer on the convert application
-    # page
-    def similar_submissions(submission)
-      return [] unless submission.registered_vessel
-      submission.registered_vessel.submissions.active.where.not(ref_no: nil)
-    end
-
     # looks for similar vessels, to help
     # a reg officer on a part_3 application page
     def similar_vessels(part, vessel) # rubocop:disable Metrics/MethodLength

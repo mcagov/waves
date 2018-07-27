@@ -37,7 +37,7 @@ class Pdfs::PaymentReceiptWriter
       ["Fee Receipt Date", @finance_payment.payment_date],
       ["Application Reference No.", @finance_payment.application_ref_no],
       ["Part of the Register", @finance_payment.part_description.to_s],
-      ["Application Type", @finance_payment.task_description],
+      ["Application Type", @finance_payment.application_type_description],
       ["Official Number", @finance_payment.vessel_reg_no],
       ["Vessel Name", @finance_payment.vessel_name],
       ["Payer Name", @finance_payment.payer_name],

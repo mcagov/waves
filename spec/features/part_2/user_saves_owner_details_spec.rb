@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User save owner details", js: :true do
+xdescribe "User save owner details", js: :true do
   scenario "Individual owner" do
     visit_name_approved_part_2_submission
     click_on("Owners & Shareholding")

@@ -18,7 +18,7 @@ describe Submission::SignaturesController, type: :controller do
               params: {
                 submission_id: submission.id,
                 submission: {
-                  task: :change_vessel,
+                  application_type: :change_vessel,
                   vessel_reg_no: registered_vessel.reg_no } }
       end
 
@@ -33,7 +33,7 @@ describe Submission::SignaturesController, type: :controller do
               params: {
                 submission_id: submission.id,
                 submission: {
-                  task: :change_vessel,
+                  application_type: :change_vessel,
                   vessel_reg_no: "foo" } }
       end
 

@@ -1,19 +1,19 @@
-- unless submission.current_state == :completed
+- unless task.current_state == :completed
   .row
     .col-sm-12
       %ol.breadcrumb
         %li.breadcrumb-item.active
           Queue
         %li.breadcrumb-item
-          - case submission.current_state
-            - when :incomplete
-              = link_to "Incomplete Applications", tasks_incomplete_path
-            - when :unassigned
+          - case task.current_state
+            - when :cancelled
+              = link_to "Cancelled Tasks", tasks_cancelled_path
+            - when :unclaimed
               = link_to "Unclaimed Tasks", tasks_unclaimed_path
-            - when :assigned
+            - when :claimed
               - if submission.claimant == current_user
                 = link_to "My Tasks", tasks_my_tasks_path
               - else
                 = link_to "Team Tasks", tasks_team_tasks_path
             - when :referred
-              = link_to "Referred Applications", tasks_referred_path
+              = link_to "Referred Tasks", tasks_referred_path

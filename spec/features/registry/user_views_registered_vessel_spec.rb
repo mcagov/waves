@@ -39,7 +39,7 @@ describe "User views a registered vessel", type: :feature, js: true do
     expect(page).to have_css(".modal-body", text: "Some stuff")
   end
 
-  scenario "linking to the submission page" do
+  xscenario "linking to the submission page" do
     expect(page).to have_css("h1", text: @submission.vessel.name)
 
     click_on("Application History")

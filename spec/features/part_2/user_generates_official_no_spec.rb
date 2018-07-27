@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User generates an official no", js: true do
+xdescribe "User generates an official no", js: true do
   before do
     visit_name_approved_part_2_submission
 

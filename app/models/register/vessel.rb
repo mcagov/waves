@@ -94,10 +94,18 @@ module Register
     has_many :submissions,
              -> { order("created_at desc") },
              foreign_key: :registered_vessel_id
+
     has_one :latest_completed_submission,
             (lambda do
               where("completed_at is not null")
               .order("created_at desc").limit(1)
+            end),
+            foreign_key: :registered_vessel_id,
+            class_name: "Submission"
+
+    has_one :current_submission,
+            (lambda do
+              where("completed_at is null")
             end),
             foreign_key: :registered_vessel_id,
             class_name: "Submission"

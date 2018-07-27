@@ -1,0 +1,41 @@
+= render partial: "tasks/heading", locals: { heading: @heading }
+
+- if @finance_payments.empty?
+  .x_panel
+    .x_panel
+      .x_content
+        %h2.text-center
+          There are no items in this queue
+- else
+  .row
+    .col-md-12
+      .x_panel
+        .x_content
+          %table#finance-payments.table.table-striped.table-hover
+            %thead
+              %tr
+                %th Fee Receipt Date
+                %th Application Type
+                %th Application Ref No
+                %th Vessel Name
+                %th Official Number
+                %th Part of Register
+                %th Payer Name
+                %th Payment Type
+                %th Service Level
+                %th.text-right Fee Amount
+            %tbody
+            - @finance_payments.each do |finance_payment|
+              - finance_payment = Decorators::FinancePayment.new(finance_payment)
+              %tr.finance-payment
+                %td= link_to finance_payment.payment_date, finance_payment_path(finance_payment), class: "payment-date"
+                %td= link_to finance_payment.application_type_description, finance_payment_path(finance_payment)
+                %td= finance_payment.application_ref_no
+                %td= finance_payment.vessel_name
+                %td= finance_payment.vessel_reg_no
+                %td= finance_payment.part_description
+                %td= finance_payment.payer_name
+                %td= finance_payment.payment_type_description
+                %td= finance_payment.service_level.try(:titleize)
+                %td.text-right
+                  = formatted_amount(finance_payment.payment_amount)

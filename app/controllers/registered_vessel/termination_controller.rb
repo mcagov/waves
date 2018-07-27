@@ -30,7 +30,8 @@ class RegisteredVessel::TerminationController < InternalPagesController
   end
 
   def build_print_job(section_notice)
-    Task.new(:termination_notice).print_job_templates.each do |template|
+    templates = DeprecableTask.new(:termination_notice).print_job_templates
+    templates.each do |template|
       PrintJob.create(
         printable: section_notice,
         part: @submission.part,

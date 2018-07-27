@@ -24,7 +24,7 @@ class RegisteredVessel::SectionNoticeController < InternalPagesController
   def process_section_notice_submission
     @vessel.update_attribute(:frozen_at, Time.zone.now) unless @vessel.frozen?
 
-    Task.new(:section_notice).print_job_templates.each do |template|
+    DeprecableTask.new(:section_notice).print_job_templates.each do |template|
       PrintJob.create(
         printable: build_section_notice,
         part: @submission.part,

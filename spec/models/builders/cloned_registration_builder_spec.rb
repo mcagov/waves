@@ -12,7 +12,8 @@ describe Builders::ClonedRegistrationBuilder do
 
     let!(:submission) do
       create(:submission,
-             registered_vessel: registered_vessel, task: :manual_override)
+             registered_vessel: registered_vessel,
+             application_type: :manual_override)
     end
 
     let!(:cloned_registration) { described_class.create(submission) }
@@ -32,7 +33,8 @@ describe Builders::ClonedRegistrationBuilder do
 
     let!(:submission) do
       create(:submission,
-             registered_vessel: unregistered_vessel, task: :manual_override)
+             registered_vessel: unregistered_vessel,
+             application_type: :manual_override)
     end
 
     it { expect(described_class.create(submission)).to be_nil }

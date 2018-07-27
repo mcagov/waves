@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User views work logs", type: :feature do
+xdescribe "User views work logs", type: :feature do
   scenario "in general" do
     3.times { create(:work_log) }
     login_to_part_3

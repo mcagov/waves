@@ -26,8 +26,6 @@ module Submission::Associations
     end
 
     def misc_associations(base)
-      base.has_many :line_items, class_name: "Submission::LineItem"
-      base.has_many :work_logs
       base.has_many :carving_and_markings, -> { order("created_at asc") }
       base.has_many :engines, as: :parent
       base.has_many :mortgages, -> { order("priority_code asc") }, as: :parent
@@ -36,7 +34,8 @@ module Submission::Associations
       base.has_one  :csr_form
       base.has_one :name_approval, class_name: "Submission::NameApproval"
       base.has_many :print_jobs
-      base.has_many :fees, through: :line_items
+      base.has_many :tasks, class_name: "Submission::Task"
+      base.has_many :work_logs, through: :tasks
     end
 
     def ownership_associations(base)
@@ -105,6 +104,14 @@ module Submission::Associations
       base.belongs_to :claimant, class_name: "User", required: false
       base.scope :assigned_to, -> (claimant) { where(claimant: claimant) }
     end
+  end
+
+  def task
+    application_type
+  end
+
+  def task=(val)
+    self.application_type = val
   end
 
   def owners

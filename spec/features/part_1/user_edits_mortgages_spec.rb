@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User edits mortgages", js: :true do
+xdescribe "User edits mortgages", js: :true do
   scenario "adding, editing and removing" do
     visit_name_approved_part_1_submission
     click_on("Mortgages")

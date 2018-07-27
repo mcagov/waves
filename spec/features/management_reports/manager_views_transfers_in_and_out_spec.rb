@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Manager views report: transfers in and out", js: true do
+xdescribe "Manager views report: transfers in and out", js: true do
   before do
     @transfer_in = create(:completed_submission)
     @transfer_in.line_items.create(

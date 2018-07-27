@@ -12,11 +12,12 @@ class Report::CefasReport < Report
   end
 
   def results
-    build_results(scoped_submissions.where(task: :new_registration))
+    build_results(
+      scoped_submissions.where(application_type: :new_registration))
   end
 
   def second_sheet_results
-    build_results(scoped_submissions.where(task: :closure))
+    build_results(scoped_submissions.where(application_type: :closure))
   end
 
   def third_sheet_results
@@ -24,7 +25,7 @@ class Report::CefasReport < Report
       scoped_submissions
       .where(
         [
-          "task in (?, ?, ?, ?)",
+          "application_type in (?, ?, ?, ?)",
           :renewal, :change_owner, :change_vessel, :change_address
         ]
       )

@@ -3,6 +3,6 @@
     .col-md-2
       %label{ for: "filter_task" } Task Type
     .col-md-2
-      = select :filter, :task, [["All Tasks", "all_tasks"]] + Task.all_task_types,
+      = select :filter, :task, [["All Tasks", "all_tasks"]] + DeprecableTask.all_task_types,
         { include_blank: false, selected: filter[:task] },
         class: "form-control"

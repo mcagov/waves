@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User reports receipt of a Carving & Marking Note", js: true do
+xdescribe "User reports receipt of a Carving & Marking Note", js: true do
   scenario "in general" do
     visit_carving_and_marking_ready_submission
     click_on("Certificates & Documents")

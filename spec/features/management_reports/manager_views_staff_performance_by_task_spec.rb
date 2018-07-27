@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Manager views staff performance by task", js: true do
+xdescribe "Manager views staff performance by task", js: true do
   before do
     @submission = create(:completed_submission)
     login_to_reports

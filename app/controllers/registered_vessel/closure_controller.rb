@@ -23,7 +23,7 @@ class RegisteredVessel::ClosureController < InternalPagesController
         @vessel,
         current_user)
 
-    task_description = Task.new(:registrar_closure).description
+    task_description = DeprecableTask.new(:registrar_closure).description
     Builders::ClosedRegistrationBuilder
       .create(@submission, Time.zone.now, task_description)
   end

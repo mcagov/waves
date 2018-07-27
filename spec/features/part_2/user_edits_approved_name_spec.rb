@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User edits part 2 name and PLN", type: :feature, js: :true do
+xfeature "User edits part 2 name and PLN", type: :feature, js: :true do
   scenario "for a new_registration" do
     visit_name_approved_part_2_submission
     click_on("Change Name or PLN")

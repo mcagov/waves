@@ -18,7 +18,7 @@
         %td.owner-address= owner.inline_address
         %td.declaration-status
           = render partial: "declarations/status", locals: { declaration: declaration}
-    - if @submission.display_registry_info?
+    - if @task.display_registry_info?
       - @submission.removed_registered_owners.each do |owner|
         %tr
           %td.owner-name.strike= owner

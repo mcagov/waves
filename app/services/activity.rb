@@ -69,9 +69,9 @@ class Activity
     @part.to_s.match(/^part_/)
   end
 
-  def task_types # rubocop:disable Metrics/MethodLength
-    default_tasks = Task.default_task_types
-    excluded_tasks =
+  def application_types # rubocop:disable Metrics/MethodLength
+    default_application_types = ApplicationType.document_entry
+    excluded_application_types =
       case @part
       when :part_1
         [:simple_to_full]
@@ -87,7 +87,9 @@ class Activity
       else
         []
       end
-    default_tasks.select { |t| !excluded_tasks.include?(t[1]) }
+    default_application_types.select do |t|
+      !excluded_application_types.include?(t[1])
+    end
   end
 
   def matches?(part)

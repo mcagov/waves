@@ -950,7 +950,7 @@ Metrics/BlockNesting:
 
 Metrics/ClassLength:
   CountComments: false  # count full line comments?
-  Max: 130
+  Max: 135
 
 Metrics/ModuleLength:
   CountComments: false  # count full line comments?

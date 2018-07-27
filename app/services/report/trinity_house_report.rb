@@ -34,7 +34,7 @@ class Report::TrinityHouseReport < Report
   def headings
     [
       "Official number", "Port of registry", "Current registration status",
-      "Task type", "Vessel Name", "Registered length",
+      "DeprecableTask type", "Vessel Name", "Registered length",
       "Correspondent's name'", "Owner's name and address",
       "Shares Held Outright", "Shares Held Jointly",
       "Date of registry", "Date of closure", "Reason for closure"
@@ -65,7 +65,7 @@ class Report::TrinityHouseReport < Report
         submission.vessel_reg_no,
         vessel.port_name,
         RegistrationStatus.new(submission.registered_vessel).to_s,
-        Task.new(submission.task).description,
+        DeprecableTask.new(submission.task).description,
         vessel.name,
         vessel.register_length,
         submission.correspondent.try(:name),

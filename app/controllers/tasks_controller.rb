@@ -1,60 +1,39 @@
 class TasksController < InternalPagesController
   def my_tasks
-    @submissions =
-      submission_scope.assigned_to(current_user).order("target_date asc")
+    @tasks =
+      task_scope.claimed_by(current_user).order("target_date asc")
   end
 
   def team_tasks
-    @submissions = submission_scope.assigned.order("target_date asc")
-  end
-
-  def fee_entry
-    @submissions =
-      submission_scope
-      .unassigned
-      .where(officer_intervention_required: true)
-      .joins(:payments)
-      .where("payments.amount >= ?", 0)
-      .order("target_date asc")
-  end
-
-  def refunds_due
-    @submissions =
-      submission_scope
-      .unassigned
-      .where(officer_intervention_required: true)
-      .joins(:payments)
-      .where("payments.amount < ?", 0)
-      .order("target_date asc")
+    @tasks = task_scope.claimed.order("target_date asc")
   end
 
   def unclaimed
     @filter_registration_type = params[:filter_registration_type] || "all"
 
     query =
-      submission_scope
-      .unassigned
-      .where(officer_intervention_required: false)
+      task_scope
+      .unclaimed
 
     query = filter_by_registration_type(query)
-    @submissions = query.order("target_date asc")
+    @tasks = query.order("target_date asc")
   end
 
   def incomplete
-    @submissions = submission_scope.incomplete.order("target_date asc")
+    @tasks = task_scope.incomplete.order("target_date asc")
   end
 
   def referred
-    @submissions = submission_scope.order("referred_until desc").referred
+    @tasks = task_scope.order("submission_tasks.referred_until desc").referred
   end
 
   def cancelled
-    @submissions = submission_scope.order("updated_at desc").cancelled
+    @tasks = task_scope.order("submission_tasks.updated_at desc").cancelled
   end
 
   def next_task
-    if (submission = submission_scope.assigned_to(current_user).first)
-      return redirect_to submission_path(submission)
+    if (task = task_scope.claimed_by(current_user).first)
+      return redirect_to submission_task_path(task.submission, task)
     else
       return redirect_to tasks_my_tasks_path
     end
@@ -62,10 +41,10 @@ class TasksController < InternalPagesController
 
   private
 
-  def submission_scope
-    Submission
+  def task_scope
+    Submission::Task
       .in_part(current_activity.part)
-      .includes(:claimant, :declarations, payments: [:remittance])
+      .includes(:claimant, :submission, :service)
       .paginate(page: params[:page], per_page: 50)
       .active
   end
@@ -75,11 +54,14 @@ class TasksController < InternalPagesController
     when "all"
       query
     when "not_set"
-      query.where("(changeset#>>'{vessel_info, registration_type}' is null)")
+      query.where("#{reg_type_sql} is null")
     else
       query.where(
-        "(UPPER(changeset#>>'{vessel_info, registration_type}') = ?)",
-        @filter_registration_type.upcase)
+        "(UPPER#{reg_type_sql} = ?)", @filter_registration_type.upcase)
     end
+  end
+
+  def reg_type_sql
+    "(submissions.changeset#>>'{vessel_info, registration_type}')"
   end
 end

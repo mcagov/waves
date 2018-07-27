@@ -1,0 +1,46 @@
+- @tasks = @submission.tasks.includes(:submission, :service).order(:submission_ref_counter)
+
+.x_panel
+  %h2.x_title
+    Tasks for this Application
+
+    .pull-right
+      = link_to submission_tasks_path(@submission), class: ("hidden" if @task_manager) do
+        %i.fa.fa-cog
+        Task Manager
+  .x_content
+    %table.table
+      %thead
+        %th Task
+        %th Service Level
+        %th Price
+        %th Start Date
+        %th Target Date
+        %th Reference No
+        %th Status
+        %th
+      %tbody
+        - @tasks.each do |task|
+          %tr{class: ("success" if @task == task)}
+            %td.service_name
+              = link_to task.service.name, submission_task_path(@submission, task)
+            %td.service_level= task.service_level.to_s.humanize
+            %td.formatted_price= formatted_amount(task.price)
+            %td.start_date= task.start_date
+            %td.target_date= task.target_date
+            %td.ref_no= task.ref_no
+            %td.state
+              = render partial: "submission/tasks/status", locals: { task: task }
+            %td
+              = link_to "#", data: { target: "#edit_task_#{task.id}", toggle: "modal" }, class: ("hidden" unless @task_manager) do
+                %i.fa.fa-cog
+                Edit
+  .x_footer
+    - if @task_manager && !@submission.tasks.initialising.empty?
+      = button_to confirm_submission_tasks_path(@submission),
+        class: "btn btn-success btn-md pull-right" do
+        %i.fa.fa-check
+        Confirm Tasks
+
+- if @task_manager
+  = render partial: "submission/tasks/modals/edit", collection: @tasks, as: :task

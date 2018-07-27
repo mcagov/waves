@@ -8,51 +8,46 @@ describe "User links finance_payment", type: :feature, js: true do
       :submission,
       part: :part_3,
       vessel_reg_no: vessel_reg_no,
-      task: :change_owner,
+      application_type: :change_owner,
       ref_no: "ABC123")
 
     create(
       :submission,
       part: :part_3,
-      vessel_reg_no: vessel_reg_no,
-      task: :change_vessel,
+      vessel_reg_no: create(:registered_vessel).reg_no,
+      application_type: :change_vessel,
       ref_no: "FOOBAR")
 
     create(
-      :submitted_finance_payment,
+      :locked_finance_payment,
       part: :part_3,
-      task: :new_registration,
+      application_type: :new_registration,
       application_ref_no: "ABC123")
 
-    claim_fee_entry_and_visit
+    visit_fee_entry
   end
 
   scenario "to the prompted application" do
-    expect(page)
-      .to have_css("h1", text: /New Registration for .* ID: Not yet generated/)
+    expect(page).to have_css("h1", text: "Fee Received")
+    within("#related_submission") { click_on("Link to this Application") }
 
-    within("td.official_no") { expect(page).not_to have_text("Change") }
-
-    within("#actions") { click_on("Link to Application") }
-
-    expect(page)
-      .to have_css("h1", text: /Change of Ownership for .* ID: ABC123/)
+    application_is_linked
   end
 
   scenario "to another application" do
-    within("#actions") { click_on("Link to Another Application") }
+    within("#actions") { click_on("Link to another Application") }
 
     within("#link-application") do
       search_for("foo")
       within("#submissions") { click_on("Link") }
     end
 
-    expect(page)
-      .to have_css("h1", text: /Change of Vessel details .* ID: FOOBAR/)
+    application_is_linked
   end
+end
 
-  scenario "unlinking the application" do
-    within(".linkable_ref_no") { click_on("Unlink") }
-    within("#actions") { expect(page).to have_link("Convert to Application") }
-  end
+def application_is_linked
+  expect(page).to have_text("payment has been linked")
+  expect(page).to have_css("h1", text: "My Tasks")
+  expect(Payment::FinancePayment.unattached).to be_empty
 end

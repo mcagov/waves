@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User views Trinity House reports", js: true do
+xdescribe "User views Trinity House reports", js: true do
   before do
     login_to_reports
     visit admin_report_path(:fishing_regional)

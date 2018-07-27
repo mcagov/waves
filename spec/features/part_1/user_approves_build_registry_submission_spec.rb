@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User approves a submission that builds the registry", js: :true do
+xdescribe "User approves a submission that builds the registry", js: :true do
   before do
     visit_name_approved_part_1_submission
     click_on("Save Details")

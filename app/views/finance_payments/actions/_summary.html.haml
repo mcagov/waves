@@ -1,0 +1,37 @@
+.row
+  .col-md-6
+    #finance_info.x_panel
+      .x_content
+        %table.table
+          %thead
+            %th Finance Payment
+          %tbody
+            %tr
+              %td
+                = render partial: "finance/payments/payment", locals: {finance_payment: @finance_payment }
+  .col-md-6
+    %table.table
+      %tbody
+        %tr
+          %td.soft-label.no-top-border{width: '50%'} Vessel Name
+          %td.no-top-border
+            %strong= submission.vessel_name
+        %tr
+          %td.soft-label Official Number
+          %td.official_no
+            %strong
+              - if submission.new_registration?
+                N/A
+              - else
+                = submission.vessel_reg_no
+                - if @submission.claimant == current_user && !@linkable_submission
+                  = link_to "#change-vessel",
+                    "data-target" => "#change-vessel",
+                    "data-toggle" => "modal",
+                    class: "btn btn-xs btn-info" do
+                    Change
+        %tr
+          %td.soft-label Target Date
+          %td
+            %strong
+              = submission.target_date

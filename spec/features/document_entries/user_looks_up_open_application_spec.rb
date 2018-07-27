@@ -4,6 +4,7 @@ describe "User looks up an open application", js: true do
   before do
     @submission = create(:submission)
     login_to_part_3
+    visit open_submissions_path
     click_on("Document Entry")
   end
 

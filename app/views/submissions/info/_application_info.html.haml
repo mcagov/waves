@@ -1,20 +1,21 @@
+- account_ledger = AccountLedger.new(@submission)
 .x_panel
   %h2.x_title Application Information
   .x_content
     %table.table
       %tbody
         %tr
-          %td.soft-label.no-top-border Source:
+          %td.soft-label.no-top-border Application Type:
           %td.no-top-border
+            %strong= submission.job_type
+        %tr
+          %td.soft-label Source:
+          %td
             %strong= submission.source_description
         %tr
           %td.soft-label Date Received:
           %td
             %strong= submission.received_at
-        %tr
-          %td.soft-label Target Date:
-          %td
-            %strong= submission.target_date
         %tr
           %td.soft-label Application Expiry Date:
           %td.expiry-date
@@ -41,6 +42,24 @@
             %strong
               = link_to_unless @readonly, submission.delivery_address_description, "#",
                 data: { target: "#edit_applicant", toggle: "modal" }
+        %tr
+          %td.soft-label Payment Due
+          %td.payment_due
+            %strong
+              = formatted_amount(account_ledger.payment_due)
+
+        %tr
+          %td.soft-label Payment Received
+          %td.payment_received
+            %strong
+              = formatted_amount(account_ledger.payment_received)
+
+        %tr
+          %td.soft-label Balance
+          %td.balance
+            %strong
+              = formatted_amount(account_ledger.balance)
+
 
 
 .modal.fade{id: "edit_applicant", role: "dialog", tabindex: "-1"}

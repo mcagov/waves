@@ -1,0 +1,6 @@
+:plain
+   $("#cancel-task .modal-content").html(
+    '#{escape_javascript(
+      render partial: "/submission/task/notifications/cancel",
+      locals: { submission: @submission, task: @task })}');
+

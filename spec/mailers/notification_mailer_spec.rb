@@ -66,8 +66,8 @@ RSpec.describe NotificationMailer, type: :mailer do
 
   describe "application_approval templates are present" do
     it "renders for each task type" do
-      Task.default_task_types.each do |task|
-        next unless Task.new(task[1]).emails_application_approval?
+      DeprecableTask.default_task_types.each do |task|
+        next unless DeprecableTask.new(task[1]).emails_application_approval?
         mail =
           NotificationMailer.application_approval(
             default_params, "Reg_no", "Bob", task[1], "MV Boat")

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Manager views staff performance report", js: true do
+xdescribe "Manager views staff performance report", js: true do
   before do
     @submission = create(:completed_submission)
     @submission.update_attributes(received_at: "20/01/2017")

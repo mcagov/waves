@@ -1,0 +1,10 @@
+- if task.initialising?
+  = link_to submission_task_path(@submission, task),
+    class: 'btn-link',
+    method: :delete,
+    data: { confirm: "Are you sure you want to remove this task?" },
+    style: 'color: red;' do
+    %i.fa.fa-trash
+    Remove
+- else
+  = task.current_state.to_s.humanize

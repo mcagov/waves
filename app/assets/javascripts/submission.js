@@ -26,16 +26,16 @@ $(document).ready(function() {
   }
 
   // Submissions#new: toggle Official No / Vessel Name field
-  if ($('form #submission_task').length > 0) { set_task_type_depenencies(); }
+  if ($('form #submission_application_type').length > 0) { set_application_type_depenencies(); }
 
-  $('form #submission_task').on('change', function(){
-    set_task_type_depenencies();
+  $('form #submission_application_type').on('change', function(){
+    set_application_type_depenencies();
   })
 
-  function set_task_type_depenencies() {
-    var current_task_type = $('form #submission_task').val();
+  function set_application_type_depenencies() {
+    var current_application_type = $('form #submission_application_type').val();
     var name_field_array = ['new_registration', 'provisional'];
-    var display_name_field = $.inArray(current_task_type, name_field_array) > -1;
+    var display_name_field = $.inArray(current_application_type, name_field_array) > -1;
 
     if ( display_name_field ) {
       $('#submission_vessel_name').removeClass('hidden');

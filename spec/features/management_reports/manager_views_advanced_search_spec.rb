@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Manager views advanced search", js: true do
+xdescribe "Manager views advanced search", js: true do
   before do
     create(:registered_vessel, name: "BOB", gross_tonnage: 1.0)
     create(:registered_vessel, name: "SOMEONE ELSE", gross_tonnage: 12345)

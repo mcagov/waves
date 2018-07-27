@@ -1,5 +1,5 @@
 - submission = Decorators::Submission.new(@submission)
-= render partial: "submissions/info/breadcrumbs", locals: {submission: submission}
-= render partial: "submissions/info/heading", locals: {submission: submission}
+= render partial: "submissions/info/breadcrumbs", locals: {submission: submission, task: task}
+= render partial: "submissions/info/heading", locals: {submission: submission, task: task}
 = render partial: "submissions/info/prompts", locals: {submission: submission}
 = render partial: "submissions/info/summary", locals: {submission: submission}

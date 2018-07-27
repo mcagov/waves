@@ -1,7 +1,7 @@
 .row
   .col-sm-6
     %h1{style: "margin-top: 0px !important;"}
-      = Task.new(@submission.task).description
+      = DeprecableTask.new(@submission.task).description
       %small
         ID:
         = @submission.ref_no
@@ -36,7 +36,7 @@
         Return to My Tasks
       .pull-right
 
-        - if display_csr_forms?(@submission) && Task.new(@submission.task).builds_registry?
+        - if display_csr_forms?(@submission) && DeprecableTask.new(@submission.task).builds_registry?
           = link_to vessel_csrs_path(@submission.registered_vessel),
             method: :post,
             class: 'btn btn-info btn-lg' do
@@ -45,4 +45,4 @@
 
         = link_to tasks_next_task_path, class: 'btn btn-success btn-lg' do
           %i.fa.fa-arrow-circle-right{style: 'font-size: 1.2em; font-weight: bold;'}
-          Process Next Application
+          Process Next Task

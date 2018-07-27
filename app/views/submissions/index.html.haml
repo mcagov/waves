@@ -1,0 +1,46 @@
+.row
+  .col-md-6
+    %h1.heading_no_top_margin= @page_title
+  .col-md-6
+    .pull-right
+      = render partial: "tasks/actions/start_new_application"
+.row
+  .col-md-12
+    .x_panel
+      .x_content
+        - if @submissions.empty?
+          %h2.text-center
+            There are no items in this queue
+        - else
+          %table#submissions.table.table-striped.table-hover
+            %thead
+              %tr
+                %th Vessel
+                %th Official Number
+                - if Policies::Workflow.uses_registration_types?(current_activity.part)
+                  %th Registration Type
+                %th Application Ref No.
+                %th Job Type
+                %th Date Received
+                %th Payment
+                %th Source
+                %th Status
+            %tbody
+              - @submissions.each do |submission|
+                - submission = Decorators::Submission.new(submission)
+
+                %tr.submission{ id: "submission_#{ submission.id }"}
+                  %td.vessel-name= link_to submission.vessel_name, submission_path(submission)
+                  %td= submission.vessel_reg_no
+                  - if Policies::Workflow.uses_registration_types?(current_activity.part)
+                    %td.registration_type= submission.registration_type.try(:humanize)
+                  %td= submission.ref_no
+                  %td= link_to submission.job_type, submission_path(submission)
+                  %td= submission.received_at
+                  %td.payment
+                    = payment_status_icon(submission.payment_status)
+                  %td= submission.source_description
+                  %td= pluralize(submission.tasks.length, "task")
+
+            = will_paginate @submissions, renderer: BootstrapPagination::Rails
+

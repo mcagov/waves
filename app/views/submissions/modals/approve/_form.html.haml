@@ -5,7 +5,7 @@
     %h4.modal-title
       = t("submission.approval.modal-title.#{submission.task}")
   .modal-body.approve-message
-    - task = Task.new(submission.task)
+    - task = DeprecableTask.new(submission.task)
     - content_rendered = false
 
     - if task.prints_certificate?

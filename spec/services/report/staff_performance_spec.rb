@@ -28,7 +28,7 @@ describe Report::StaffPerformance do
     end
 
     it "has one result for each task type" do
-      expect(subject.results.length).to eq(Task.all_task_types.length)
+      expect(subject.results.length).to eq(DeprecableTask.all_task_types.length)
     end
 
     it "has the expected output for a new registration" do
@@ -36,7 +36,7 @@ describe Report::StaffPerformance do
       expect(subject.results.map(&:data_elements)).to include(new_reg)
     end
 
-    it "has the task as a sub_report_filter" do
+    it "has the application_type as a sub_report_filter" do
       new_reg = { task: :new_registration }
       expect(subject.results.map(&:sub_report_filters)).to include(new_reg)
     end

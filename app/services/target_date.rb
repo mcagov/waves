@@ -1,7 +1,10 @@
 class TargetDate
-  def initialize(start_date, service_level)
+  def initialize(start_date, service_level, service)
     @start_date = start_date.advance(days: -1)
-    @service_level = service_level.present? ? service_level.to_sym : :standard
+    # note the hard-coded failsafe values are intended to be used
+    # only during the task refactor
+    @service_level = (service_level || :standard).to_sym
+    @service = service || Service.new(standard_days: 10, premium_days: 1)
   end
 
   def calculate
@@ -10,6 +13,12 @@ class TargetDate
   end
 
   class << self
+    def for_task(task)
+      TargetDate.new(
+        task.start_date, task.service_level, task.service
+      ).calculate
+    end
+
     def days_away(target_date)
       return "" unless target_date
       TargetDate.set_business_days
@@ -39,6 +48,6 @@ class TargetDate
   private
 
   def number_of_days
-    @service_level == :premium ? 3 : 10
+    @service_level == :premium ? @service.premium_days : @service.standard_days
   end
 end

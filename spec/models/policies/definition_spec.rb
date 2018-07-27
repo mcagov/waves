@@ -12,7 +12,7 @@ describe Policies::Definitions do
 
     context "for a task that does not write to the registry" do
       let(:submission) do
-        create(:submission, task: :issue_csr,
+        create(:submission, application_type: :issue_csr,
                             registered_vessel: create(:registered_vessel))
       end
 
@@ -21,7 +21,7 @@ describe Policies::Definitions do
 
     context "manual_override" do
       let(:submission) do
-        build(:submission, task: :manual_override, changeset: [])
+        build(:submission, application_type: :manual_override, changeset: [])
       end
 
       context "when the vessel name is blank" do
@@ -51,7 +51,7 @@ describe Policies::Definitions do
     end
 
     context "awaiting_payment" do
-      let!(:submission) { create(:incomplete_submission) }
+      let!(:submission) { create(:submission_task, price: 100).submission }
 
       it { expect(subject).to include(:payment_required) }
     end

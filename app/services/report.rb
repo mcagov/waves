@@ -148,7 +148,7 @@ class Report
 
   def filter_by_task(scoped_query)
     if @task.present? && @task != "all_tasks"
-      scoped_query.where("task = ?", @task.to_s)
+      scoped_query.where("application_type = ?", @task.to_s)
     else
       scoped_query
     end

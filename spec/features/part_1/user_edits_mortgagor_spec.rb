@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User edits mortgagors", js: :true do
+xdescribe "User edits mortgagors", js: :true do
   scenario "adding an owner, then adding that owner as a mortgagor" do
     visit_name_approved_part_1_submission
     click_on("Owners")

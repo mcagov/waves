@@ -10,7 +10,6 @@ class Submission < ApplicationRecord
       :vessel_reg_no,
       :vessel_search_attributes,
       :owner_search_attributes,
-      :finance_payment_attributes,
     ]
 
   validates :part, presence: true
@@ -19,14 +18,12 @@ class Submission < ApplicationRecord
 
   validates :task,
             inclusion: {
-              in: Task.validation_helper_task_type_list,
-              message: "must be selected" },
-            unless: :officer_intervention_required?
+              in: DeprecableTask.validation_helper_task_type_list,
+              message: "must be selected" }
 
-  validate :ref_no, unless: :officer_intervention_required?
-
-  validate :registered_vessel_exists,
-           unless: :officer_intervention_required?
+  validate :ref_no
+  validate :registered_vessel_exists
+  validate :vessel_uniqueness
 
   before_update :build_defaults, if: :registered_vessel_id_changed?
 
@@ -54,10 +51,6 @@ class Submission < ApplicationRecord
     Builders::SubmissionBuilder.build_defaults(self)
   end
 
-  def init_processing_dates
-    Builders::ProcessingDatesBuilder.create(self)
-  end
-
   def actionable?
     Policies::Actions.actionable?(self)
   end
@@ -79,7 +72,7 @@ class Submission < ApplicationRecord
   end
 
   def job_type
-    Task.new(task).description
+    DeprecableTask.new(task).description
   end
 
   def symbolized_changeset
@@ -143,6 +136,21 @@ class Submission < ApplicationRecord
     end
   end
 
+  def vessel_uniqueness
+    return false if registered_vessel_id.blank?
+
+    existing_submission =
+      Submission.where.not(id: id).active
+                .find_by(registered_vessel_id: registered_vessel.id)
+
+    if existing_submission
+      errors.add(
+        :vessel_reg_no,
+        "An open application already exists for this vessel. "\
+        "Ref No. #{existing_submission.ref_no}")
+    end
+  end
+
   def vessel_search_attributes
     vessel.search_attributes
   end
@@ -150,10 +158,5 @@ class Submission < ApplicationRecord
   def owner_search_attributes
     return if declarations.empty?
     owners.compact.map(&:inline_name_and_address).join("; ")
-  end
-
-  def finance_payment_attributes
-    return unless finance_payment
-    finance_payment.searchable_attributes
   end
 end

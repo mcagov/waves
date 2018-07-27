@@ -90,7 +90,7 @@ describe Submission, type: :model do
 
     context "with a vessel name in a finance payment entry" do
       let(:submission) do
-        create(:submitted_finance_payment, vessel_name: "FP BOAT")
+        create(:locked_finance_payment, vessel_name: "FP BOAT")
       end
 
       it { expect(subject).to eq("FP BOAT") }
@@ -179,10 +179,6 @@ describe Submission, type: :model do
           .to receive(:actionable?)
           .with(submission)
           .and_return(true)
-
-        expect(Builders::ProcessingDatesBuilder)
-          .to receive(:create)
-          .with(submission)
       end
 
       it { submission.touch }
@@ -218,10 +214,6 @@ describe Submission, type: :model do
       let!(:submission) { create(:referred_submission) }
 
       before do
-        expect(Builders::ProcessingDatesBuilder)
-          .to receive(:create)
-          .with(submission)
-
         submission.unreferred!
       end
 

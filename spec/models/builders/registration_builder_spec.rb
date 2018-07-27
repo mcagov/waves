@@ -6,7 +6,7 @@ describe Builders::RegistrationBuilder do
       let!(:registered_vessel) { create(:registered_vessel) }
       let(:submission) do
         create(:assigned_submission,
-               task: task,
+               application_type: task,
                registered_vessel: registered_vessel)
       end
 

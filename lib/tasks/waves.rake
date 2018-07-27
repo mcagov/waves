@@ -20,7 +20,7 @@ namespace :waves do
       Builders::ClosedRegistrationBuilder
         .create(submission,
                 Time.zone.now,
-                Task.new(:termination_notice).description)
+                DeprecableTask.new(:termination_notice).description)
     end
   end
 end

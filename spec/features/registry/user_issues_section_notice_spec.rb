@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User issues a 30 day section notice", type: :feature, js: true do
+xdescribe "User issues a 30 day section notice", type: :feature, js: true do
   scenario "in general" do
     visit_registered_vessel
 

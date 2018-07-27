@@ -5,7 +5,7 @@ describe "User searches within part 3" do
     login_to_part_3
   end
 
-  context "for s submission" do
+  context "for a submission" do
     scenario "searching by part of the submission ref_no" do
       create(:submission, ref_no: "ABC456")
       create(:submission, ref_no: "ABC123")

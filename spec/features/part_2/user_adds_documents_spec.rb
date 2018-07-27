@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User adds documents to part_2 submission", type: :feature, js: true do
+xfeature "User adds documents to part_2 submission", type: :feature, js: true do
   scenario "in general" do
     visit_name_approved_part_2_submission
     click_on("Certificates & Documents")

@@ -62,7 +62,7 @@ class Policies::Workflow
     end
 
     def uses_certificates_and_documents?(submission)
-      Task.new(submission.task).builds_registry?
+      DeprecableTask.new(submission.task).builds_registry?
     end
 
     def uses_registration_types?(part)

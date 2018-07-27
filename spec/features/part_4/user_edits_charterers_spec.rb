@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User edits charterers", js: :true do
+xdescribe "User edits charterers", js: :true do
   before do
     visit_name_approved_part_4_submission
     click_on("Charterers")

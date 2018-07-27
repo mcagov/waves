@@ -6,7 +6,7 @@ describe Report::StaffPerformanceByTask do
       create(:completed_submission)
     end
 
-    let(:filters) { { task: :new_registration } }
+    let(:filters) { { application_type: :new_registration } }
 
     subject { described_class.new(filters) }
 

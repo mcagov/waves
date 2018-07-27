@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User views Part 2 submission", type: :feature, js: true do
+xdescribe "User views Part 2 submission", type: :feature, js: true do
   scenario "UI elements" do
     visit_name_approved_part_2_submission
     expect_safety_certificate_warning(true)

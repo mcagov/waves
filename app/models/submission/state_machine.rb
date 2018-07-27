@@ -19,7 +19,6 @@ module Submission::StateMachine
 
         event :unassigned do
           transitions to: :unassigned, from: :incomplete,
-                      on_transition: :init_processing_dates,
                       guard: :actionable?
         end
 
@@ -30,8 +29,7 @@ module Submission::StateMachine
         end
 
         event :unreferred do
-          transitions to: :unassigned, from: :referred,
-                      on_transition: :init_processing_dates
+          transitions to: :unassigned, from: :referred
         end
 
         event :unclaimed do

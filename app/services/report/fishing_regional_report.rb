@@ -37,7 +37,7 @@ class Report::FishingRegionalReport < Report
 
   def transaction_type(registration)
     return "" if registration.submissions.empty?
-    Task.new(registration.submissions.first.task).description
+    DeprecableTask.new(registration.submissions.first.task).description
   end
 
   def assign_result(registration) # rubocop:disable Metrics/MethodLength

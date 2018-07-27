@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User adds correspondence", type: :feature, js: true do
+xfeature "User adds correspondence", type: :feature, js: true do
   scenario "to a submission" do
     visit_assigned_submission
     click_on("Correspondence")

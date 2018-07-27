@@ -17,7 +17,7 @@ class Submission::SignaturesController < InternalPagesController
   protected
 
   def submission_params
-    params.require(:submission).permit(:part, :task, :vessel_reg_no)
+    params.require(:submission).permit(:part, :application_type, :vessel_reg_no)
   end
 
   def successful_redirect

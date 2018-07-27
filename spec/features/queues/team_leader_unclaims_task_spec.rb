@@ -2,14 +2,14 @@ require "rails_helper"
 
 describe "Team leader unclaims tasks", type: :feature, js: true do
   before do
-    create(:assigned_submission)
+    create(:claimed_submission_task)
   end
 
   scenario "as a team leader" do
     login_to_part_3(create(:team_leader))
     visit("/tasks/team-tasks")
     click_on(unclaim_task_link)
-    expect(Submission.last).to be_unassigned
+    expect(Submission::Task.last).to be_unclaimed
   end
 
   scenario "as an operational user" do

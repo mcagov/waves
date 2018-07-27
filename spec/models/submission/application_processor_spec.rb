@@ -33,7 +33,8 @@ describe Submission::ApplicationProcessor do
     context "with a registered_vessel" do
       let(:submission) do
         create(:assigned_submission,
-               task: task, registered_vessel: create(:registered_vessel))
+               application_type: task,
+               registered_vessel: create(:registered_vessel))
       end
 
       context "change_vessel" do

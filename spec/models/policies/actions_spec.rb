@@ -69,12 +69,6 @@ describe Policies::Actions do
       it { expect(subject).to be_falsey }
     end
 
-    context "when officer_intervention_required" do
-      before { submission.officer_intervention_required = true }
-
-      it { expect(subject).to be_falsey }
-    end
-
     context "when Policies::Workflow.approved_name_required?" do
       before do
         allow(Policies::Workflow)

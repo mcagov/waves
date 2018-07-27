@@ -12,16 +12,14 @@ class Builders::SubmissionBuilder # rubocop:disable Metrics/ClassLength
 
     def ensure_defaults
       @submission.part ||= :part_3
-      @submission.task ||= :new_registration
+      @submission.application_type ||= :new_registration
       @submission.source ||= :online
-      @submission.ref_no ||= RefNo.generate_for(@submission)
+      @submission.ref_no ||= RefNo.generate
     end
 
     def perform
       build_changeset if @submission.registered_vessel
-
       perform_changeset_operations if @submission.changeset
-
       build_agent if @submission.applicant_is_agent
     end
 
@@ -34,7 +32,6 @@ class Builders::SubmissionBuilder # rubocop:disable Metrics/ClassLength
       build_beneficial_owners
       build_directed_bys
       build_managed_bys
-      build_service_level
     end
 
     def build_changeset
@@ -218,15 +215,6 @@ class Builders::SubmissionBuilder # rubocop:disable Metrics/ClassLength
         submission_managed_by.parent = @submission
         submission_managed_by.save
       end
-    end
-
-    def build_service_level
-      service_level =
-        if @submission.symbolized_changeset[:service_level].present?
-          @submission.symbolized_changeset[:service_level][:level]
-        end
-
-      @submission.service_level = service_level || :standard
     end
   end
 end

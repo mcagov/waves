@@ -1,0 +1,22 @@
+.modal.fade{id: "edit_task_#{task.id}", role: "dialog", tabindex: "-1"}
+  .modal-dialog.modal-sm
+    .modal-content
+      = simple_form_for task,
+        method: :put,
+        url: submission_task_path(@submission, task) do |f|
+        .modal-header
+          %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+            %span{"aria-hidden" => "true"} ×
+          %h4.modal-title #{task.service.name} #{task.ref_no}
+        .modal-body
+          .row
+            .col-md-12
+              = f.input :start_date, as: :string, label: "Start Date", input_html: { class: "datepicker" }
+          .row
+            .col-md-12
+              = f.input :service_level, as: :select,
+                label: "Service Level",
+                collection: ServiceLevel.available_types(task.service, @submission.part),
+                include_blank: false
+        .modal-footer
+          = f.submit "Save", class: "btn btn-primary"

@@ -40,9 +40,9 @@ describe Builders::RegistryBuilder do
     end
 
     context "with a task that changes registry details" do
-      let!(:change_vessel_submission) do
+      let(:change_vessel_submission) do
         create(:assigned_submission,
-               task: :re_registration,
+               application_type: :re_registration,
                registered_vessel: registered_vessel,
                changeset: {
                  vessel_info: build(:submission_vessel, name: "DON DINGHY"),
@@ -52,6 +52,8 @@ describe Builders::RegistryBuilder do
       end
 
       before do
+        # workaround the submission validation: vessel_must_be_unique
+        Submission.delete_all
         described_class.create(change_vessel_submission, {})
         registered_vessel.reload
       end

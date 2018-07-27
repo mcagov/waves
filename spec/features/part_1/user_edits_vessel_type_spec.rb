@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User edits vessel type", js: :true do
+xdescribe "User edits vessel type", js: :true do
   scenario "in general" do
     visit_name_approved_part_1_submission
 

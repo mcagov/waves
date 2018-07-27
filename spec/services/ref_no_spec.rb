@@ -2,9 +2,7 @@ require "rails_helper"
 
 describe RefNo do
   context "in general" do
-    let!(:submission) { build(:submission) }
-
-    subject { described_class.generate_for(submission) }
+    subject { described_class.generate }
 
     context "in general" do
       it "generates a six character ref_no" do
@@ -22,16 +20,6 @@ describe RefNo do
         end
 
         it { expect(subject.length).to eq(6) }
-      end
-    end
-
-    context "when officer_intervention_required" do
-      before do
-        submission.officer_intervention_required = true
-      end
-
-      it "does not generate a ref_no" do
-        expect(subject).to be_blank
       end
     end
   end

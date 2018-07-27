@@ -8,7 +8,7 @@ describe Decorators::Declaration, type: :model do
       before do
         task = double(:task)
 
-        expect(Task)
+        expect(DeprecableTask)
           .to receive(:new).with(declaration.submission.task)
           .and_return(task)
 

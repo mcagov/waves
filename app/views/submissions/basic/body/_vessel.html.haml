@@ -3,19 +3,19 @@
   %thead
     %th Vessel Details
 
-    - if @submission.display_registry_info?
+    - if @task.display_registry_info?
       %th Current Information
 
-    - if @submission.display_changeset?
+    - if @task.display_changeset?
       %th Submitted Information
   %tbody
     %tr
       %td{width: "30%"} Vessel Name
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td#registry-vessel-name{width: "30%"}= registered_vessel.name
 
-      - if @submission.display_changeset?
+      - if @task.display_changeset?
         %td#vessel-name
           %strong
             - if @submission.uneditable?
@@ -28,10 +28,10 @@
     %tr
       %td Hull Identification Number (HIN)
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td= registered_vessel.hin
 
-      - if @submission.display_changeset?
+      - if @task.display_changeset?
         %td#vessel-hin
           %strong
             - if @submission.uneditable?
@@ -42,10 +42,10 @@
     %tr
       %td Make and model
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td= registered_vessel.make_and_model
 
-      - if @submission.display_changeset?
+      - if @task.display_changeset?
         %td#vessel-make_and_model
           %strong
             - if @submission.uneditable?
@@ -55,10 +55,10 @@
     %tr
       %td Length
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td= registered_vessel.length_in_meters
 
-      - if @submission.display_changeset?
+      - if @task.display_changeset?
         %td#vessel-length_in_meters
           %strong
             - if @submission.uneditable?
@@ -68,10 +68,10 @@
     %tr
       %td Number of hulls
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td= registered_vessel.number_of_hulls
 
-      - if @submission.display_changeset?
+      - if @task.display_changeset?
         %td#vessel-number_of_hulls
           %strong
             - if @submission.uneditable?
@@ -81,10 +81,10 @@
     %tr
       %td Vessel type
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td= registered_vessel.vessel_type
 
-      - if @submission.display_changeset?
+      - if @task.display_changeset?
         %td#vessel-vessel_type
           %strong
             - if @submission.uneditable?
@@ -94,10 +94,10 @@
     %tr
       %td Vessel type (other)
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td n/a
 
-      - if @submission.display_changeset?
+      - if @task.display_changeset?
         %td#vessel-vessel_type_other
           %strong
 
@@ -108,10 +108,10 @@
     %tr
       %td MMSI Number
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td= registered_vessel.mmsi_number
 
-      - if @submission.display_changeset?
+      - if @task.display_changeset?
         %td#vessel-mmsi_number
           %strong
             - if @submission.uneditable?
@@ -122,10 +122,10 @@
     %tr
       %td Radio Call Sign
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td= registered_vessel.radio_call_sign
 
-      - if @submission.display_changeset?
+      - if @task.display_changeset?
         %td#vessel-radio_call_sign
           %strong
             - if @submission.uneditable?

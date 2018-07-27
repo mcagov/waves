@@ -5,7 +5,7 @@ module Api
         @payment =
           Builders::WorldPayPaymentBuilder.create(create_payment_params)
 
-        if @payment.valid?
+        if submission && @payment.valid?
           process_payment_receipt
           render json: @payment, status: :created
         else
@@ -49,7 +49,7 @@ module Api
       def create_application_approval_notification
         Builders::NotificationBuilder.application_approval(
           submission, nil,
-          Task.new(submission.task).print_job_templates.first)
+          DeprecableTask.new(submission.task).print_job_templates.first)
       end
     end
   end

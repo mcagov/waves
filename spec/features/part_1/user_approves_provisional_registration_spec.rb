@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User approves provisional registration", js: :true do
+xdescribe "User approves provisional registration", js: :true do
   before "in general" do
     visit_name_approved_part_1_provisional_submission
 

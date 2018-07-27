@@ -17,7 +17,8 @@ class Builders::RegistrationBuilder
         registered_until: @ends_at,
         registry_info: @registered_vessel.registry_info,
         actioned_by: @submission.claimant,
-        provisional: Task.new(@submission.task).provisional_registration?)
+        provisional:
+          DeprecableTask.new(@submission.task).provisional_registration?)
 
       @submission.update_attributes(registration: registration)
 

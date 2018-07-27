@@ -1,37 +1,26 @@
 - submission = Decorators::Submission.new(submission)
+- task ||= Submission::Task.new
 #heading.row
   .col-md-10
     %h1{style: "margin-top: 0px !important; margin-bottom: 0px !important;"}
+
       = link_to submission_signature_path(submission) do
-        = submission.job_type
-        for
         %span.vessel-name #{ submission.vessel_name }. ID:
         %span.ref-no= submission.ref_no || "Not yet generated"
+      = yield(:heading_descriptor)
     .row#official-and-ec-no
       = render partial: "/submissions/info/official_no", locals: { submission: submission }
 
   .col-md-2
     %h2.pull-right= render partial: "/shared/registration_status", locals: { registration_status: submission.registration_status }
 
-    - if display_edit_application_link?(submission)
+    - if display_edit_application_link?(submission, task)
       = link_to "Edit Application",
-        edit_submission_path(submission),
+        edit_submission_path(submission, task_id: task.id),
         class: "btn btn-primary pull-right",
         id: "edit_application"
 
-
-    - if submission.unassigned?
+    - if task && task.unclaimed?
       .pull-right
-      = form_tag claim_submission_states_path(@submission) do
+      = form_tag claim_submission_task_path(submission, task) do
         = submit_tag "Claim", class: "btn btn-primary pull-right"
-
-
-- other_open_submissions = Submission::OtherOpenSubmission.for(submission)
-- unless other_open_submissions.empty?
-  #other-open-tasks.panel.panel-warning
-    .panel-heading
-      .panel-title
-        Other Open Tasks:
-        - other_open_submissions.map do |other_open_submission|
-          %strong= link_to other_open_submission.job_type, submission_path(other_open_submission)
-          (#{claimed_by(other_open_submission)}).

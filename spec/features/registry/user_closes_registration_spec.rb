@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User closes a vessel's registration", type: :feature, js: true do
+xdescribe "User closes a vessel's registration", type: :feature, js: true do
   scenario "By Owner Request" do
     visit_registered_vessel
 

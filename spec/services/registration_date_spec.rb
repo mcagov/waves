@@ -17,7 +17,7 @@ describe RegistrationDate do
     end
 
     context "a provisional_registration" do
-      let(:submission) { build(:submission, task: :provisional) }
+      let(:submission) { build(:submission, application_type: :provisional) }
 
       it "sets starts_at to today" do
         expect(subject.starts_at.to_date).to eq(Date.new(2012, 11, 24))

@@ -1,18 +1,18 @@
-.claim_button{ id: "claim_button_#{ submission.id }"}
-  - if submission.completed?
-
-  - elsif submission.unassigned?
-    = form_tag claim_submission_states_path(submission), remote: true do
+.claim_button{ id: "claim_button_#{ task.id }"}
+  - if task.unclaimed?
+    = form_tag claim_submission_task_path(submission, task), remote: true do
       = submit_tag "Claim"
 
-  - elsif submission.claimant == current_user
-    = form_tag unclaim_submission_states_path(submission), remote: true do
+  - elsif task.claimant == current_user
+    = form_tag unclaim_submission_task_path(submission, task), remote: true do
       = submit_tag "Unclaim"
 
-  - elsif submission.assigned?
+  - elsif task.claimed?
     Claimed by:
-    = submission.claimant
+    = task.claimant
 
     - if Policies::Workflow.can_unclaim_team_tasks?(current_user)
-      = form_tag unclaim_submission_states_path(submission), remote: true do
+      = form_tag unclaim_submission_task_path(submission, task), remote: true do
         = submit_tag "Unclaim (Team Leader only)"
+  - else
+    = task.current_state.to_s.humanize

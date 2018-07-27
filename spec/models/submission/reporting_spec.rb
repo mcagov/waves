@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe Submission::Reporting do
   describe "flag_in/out" do
-    let!(:new_reg) { create(:submission, task: :new_registration) }
+    let!(:new_reg) { create(:submission, application_type: :new_registration) }
     let!(:closure) { create(:assigned_closure_submission) }
 
     context ".flag_in" do

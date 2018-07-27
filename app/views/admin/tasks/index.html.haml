@@ -21,10 +21,11 @@
         %th Part III
         %th Part IV
       %tbody
-        - part_1_keys = Activity.new(:part_1).task_types.map{ |el| el[1] }
-        - part_2_keys = Activity.new(:part_2).task_types.map{ |el| el[1] }
-        - part_3_keys = Activity.new(:part_3).task_types.map{ |el| el[1] }
-        - part_4_keys = Activity.new(:part_4).task_types.map{ |el| el[1] }
+        - unless @tasks.empty?
+          - part_1_keys = Activity.new(:part_1).task_types.map{ |el| el[1] }
+          - part_2_keys = Activity.new(:part_2).task_types.map{ |el| el[1] }
+          - part_3_keys = Activity.new(:part_3).task_types.map{ |el| el[1] }
+          - part_4_keys = Activity.new(:part_4).task_types.map{ |el| el[1] }
 
         - @tasks.each do |task|
           %tr

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User views change of details submission", type: :feature, js: true do
+xfeature "User views change of details submission", type: :feature, js: true do
   let!(:submission) { create(:unassigned_change_vessel_submission) }
   let!(:registered_vessel) { submission.registered_vessel }
 

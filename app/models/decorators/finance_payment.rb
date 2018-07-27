@@ -10,8 +10,8 @@ class Decorators::FinancePayment < SimpleDelegator
     Activity.new(part)
   end
 
-  def task_description
-    Task.new(task).description
+  def application_type_description
+    ApplicationType.new(application_type).description
   end
 
   def payment_type_description
@@ -22,5 +22,17 @@ class Decorators::FinancePayment < SimpleDelegator
 
   def assigned_application_ref_no
     locked? ? submission.ref_no : application_ref_no
+  end
+
+  def refund?
+    payment_amount < 0
+  end
+
+  def payment?
+    !refund
+  end
+
+  def page_heading
+    refund? ? "Refund Due" : "Fee Received"
   end
 end

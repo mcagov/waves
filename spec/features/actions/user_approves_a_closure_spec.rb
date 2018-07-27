@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User approves a closure", type: :feature, js: true do
+xfeature "User approves a closure", type: :feature, js: true do
   before do
     submission = create(:assigned_closure_submission)
     login_to_part_3(submission.claimant)

@@ -2,7 +2,7 @@ class Submission::ApplicationProcessor
   class << self
     def run(submission, approval_params)
       @submission = submission
-      @task = Task.new(@submission.task)
+      @task = DeprecableTask.new(@submission.task)
       @approval_params = approval_params
 
       assign_registered_vessel

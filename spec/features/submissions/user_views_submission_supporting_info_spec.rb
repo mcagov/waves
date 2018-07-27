@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User views submission supporting info", type: :feature, js: true do
+xfeature "User views submission supporting info", type: :feature, js: true do
   before do
     login_to_part_3
     visit submission_path(submission)

@@ -1,0 +1,33 @@
+- submission = Decorators::Submission.new(@submission)
+- @task_manager = true
+
+- content_for :heading_descriptor do
+  %em Task Manager
+
+= render partial: "submissions/info/heading", locals: {submission: submission}
+= render partial: "submissions/info/prompts", locals: {submission: submission}
+= render partial: "submissions/info/summary", locals: {submission: submission}
+
+.x_panel
+  .x_content#services
+    %h2.x_title Available Services
+    %table.table
+      %thead
+        %th Task
+        %th Standard Days
+        %th Premium Days
+        %th Standard Price
+        %th Premium Price
+        %th Subsequent Price
+      %tbody
+        - Service.in_part(current_activity.part).each do |service|
+          %tr
+            %td= link_to service
+            %td= service.standard_days
+            %td= service.premium_days
+            %td.standard_price
+              = link_to_create_task(service, service.price_for(current_activity.part, :standard), :standard)
+            %td.premium_price
+              = link_to_create_task(service, service.price_for(current_activity.part, :premium), :premium)
+            %td.subsequent_price
+              = link_to_create_task(service, service.price_for(current_activity.part, :subsequent), :standard)

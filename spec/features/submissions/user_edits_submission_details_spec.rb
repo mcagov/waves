@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "User edits submission details", js: true do
   before do
-    visit_assigned_submission
+    visit_claimed_task
   end
 
   scenario "vessel details" do

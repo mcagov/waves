@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User edits submission owners", js: true do
+xdescribe "User edits submission owners", js: true do
   before do
     @submission = visit_assigned_change_owner_submission
     click_on "Edit Application"

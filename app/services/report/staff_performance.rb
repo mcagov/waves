@@ -20,11 +20,11 @@ class Report::StaffPerformance < Report
   end
 
   def results
-    Task.all_task_types.map do |task_type|
+    ApplicationType.all.map do |task_type|
       submission_ids = submission_ids_for(task_type)
       data_elements =
         [
-          Task.new(task_type[1]).description,
+          DeprecableTask.new(task_type[1]).description,
           submission_ids.length,
           top_performer(submission_ids),
         ]
@@ -46,7 +46,7 @@ class Report::StaffPerformance < Report
   end
 
   def submission_ids_for(task_type)
-    scoped_query = Submission.where(task: task_type)
+    scoped_query = Submission.where(application_type: task_type)
     scoped_query = filter_by_received_at(scoped_query)
     scoped_query = filter_by_part(scoped_query)
     scoped_query.completed.pluck(:id)

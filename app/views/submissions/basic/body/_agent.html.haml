@@ -2,7 +2,7 @@
   %thead
     %th Agent
 
-    - if @submission.display_registry_info?
+    - if @task.display_registry_info?
       %th Current Information
 
     - if @submission.display_changeset?
@@ -11,7 +11,7 @@
     %tr
       %td{width: "20%"} Agent Name
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td.registry-agent-name{width: "40%"}
           = @submission.registered_agent.name
 
@@ -21,7 +21,7 @@
     %tr
       %td{width: "20%"} Agent Email
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td.registry-agent-email{width: "40%"}
           = @submission.registered_agent.email
 
@@ -31,7 +31,7 @@
     %tr
       %td Agent Phone Number
 
-      - if @submission.display_registry_info?
+      - if @task.display_registry_info?
         %td= @submission.registered_agent.phone_number
 
       %td.agent-phone_number

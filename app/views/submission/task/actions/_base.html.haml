@@ -1,0 +1,30 @@
+- if @task.actionable? && !current_user.read_only?
+  .row.no-print#actions
+    .col-xs-12
+      - if @task.claimant == current_user
+        - if @task.referrable?
+          / refer button and modal
+          = render partial: "submission/task/modals/refer", locals: { submission: @submission }
+          = link_to submission_task_notification_path(@submission, @task, template: :refer),
+            data: { target: "#refer-task", toggle: "modal" },
+            class: "btn btn-warning btn-refer-submission",
+            remote: true do
+            %i.fa.fa-pause
+            Refer Task
+
+        / cancel button and modal
+        = render partial: "submission/task/modals/cancel", locals: { submission: @submission }
+        = link_to submission_task_notification_path(@submission, @task, template: :cancel),
+                  data: { target: "#cancel-task", toggle: "modal" },
+                  class: "btn btn-link",
+                  remote: true do
+          %i.fa.fa-trash
+          Cancel Task
+
+      - elsif @submission.referred?
+        / revert referral button
+        = form_tag claim_referral_submission_states_path(submission) do
+          = submit_tag "Reclaim Referral", class: "btn btn-success"
+
+      - unless @readonly
+        = yield :submission_save_buttons

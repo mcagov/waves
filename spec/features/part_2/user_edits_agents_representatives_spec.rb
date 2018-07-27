@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User edits submission agent and representative person", js: true do
+xdescribe "User edits submission agent and representative person", js: true do
   before do
     visit_name_approved_part_2_submission
     click_on("Agent & Representative Person")

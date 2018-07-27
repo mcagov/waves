@@ -1,6 +1,6 @@
 = render partial: "submissions/info/base", locals: { submission: @submission }
 
-- if Task.new(@submission.task).prevented_from_editing?
+- if DeprecableTask.new(@submission.task).prevented_from_editing?
   = render partial: "submissions/restricted/show", locals: { submission: @submission }
 - else
   = render partial: "submissions/#{Activity.new(@submission.part).view_mode}/show",

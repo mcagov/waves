@@ -1,0 +1,14 @@
+- if task.cancelled?
+  #prompt.alert.alert-info
+    Task Cancelled
+    - if worklog = WorkLog.for(task)
+      by #{worklog.actioned_by}
+      on #{worklog.created_at}.
+
+- elsif task.referred?
+  #prompt.alert.alert-warning
+    Task Referred
+    - if worklog = WorkLog.for(task)
+      by #{worklog.actioned_by}
+      on #{worklog.created_at}.
+    Next action due by #{ task.referred_until }.

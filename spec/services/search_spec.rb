@@ -43,40 +43,6 @@ describe Search, type: :model do
         it { expect(subject.length).to eq(1) }
       end
     end
-
-    context "search by finance_payment inputs" do
-      let!(:finance_payment) do
-        create(:submitted_finance_payment, vessel_name: "CARIBE",
-                                           application_ref_no: "ABC123",
-                                           applicant_name: "HARRY")
-      end
-
-      subject { Search.submissions(term) }
-
-      context "vessel_name" do
-        let(:term) { "CARIBE" }
-
-        it { expect(subject.length).to eq(1) }
-      end
-
-      context "application_ref_no" do
-        let(:term) { "ABC123" }
-
-        it { expect(subject.length).to eq(1) }
-      end
-
-      context "application_name" do
-        let(:term) { "HARRY" }
-
-        it { expect(subject.length).to eq(1) }
-      end
-
-      context "something that does not exist" do
-        let(:term) { "FOOBAR" }
-
-        it { expect(subject).to be_empty }
-      end
-    end
   end
 
   context ".vessels" do

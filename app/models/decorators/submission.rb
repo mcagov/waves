@@ -17,12 +17,12 @@ class Decorators::Submission < SimpleDelegator
   end
 
   def display_registry_info?
-    return false if Task.new(task).re_registration?
+    return false if DeprecableTask.new(task).re_registration?
     registered_vessel
   end
 
   def display_changeset?
-    Task.new(task).builds_registry?
+    DeprecableTask.new(task).builds_registry?
   end
 
   def registered_agent
@@ -55,19 +55,19 @@ class Decorators::Submission < SimpleDelegator
   end
 
   def vessel_can_be_edited?
-    Task.new(task).vessel_can_be_edited?
+    DeprecableTask.new(task).vessel_can_be_edited?
   end
 
   def ownership_can_be_changed?
-    Task.new(task).ownership_can_be_changed?
+    DeprecableTask.new(task).ownership_can_be_changed?
   end
 
   def address_can_be_changed?
-    Task.new(task).address_can_be_changed?
+    DeprecableTask.new(task).address_can_be_changed?
   end
 
   def new_registration?
-    Task.new(task).new_registration?
+    DeprecableTask.new(task).new_registration?
   end
 
   def changed_vessel_attribute(attr_name)
@@ -100,16 +100,12 @@ class Decorators::Submission < SimpleDelegator
     vessel.registration_type if vessel
   end
 
-  def convertible?
-    new_registration? || registered_vessel.present?
-  end
-
   def can_issue_carving_and_marking?
     vessel_reg_no
   end
 
   def referrable?
-    Task.new(task).referrable?
+    DeprecableTask.new(task).referrable?
   end
 
   def applicant_description

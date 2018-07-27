@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "User edits vessel name", js: true do
   before do
-    visit_assigned_submission
+    visit_claimed_task
     click_on "Edit Application"
   end
 

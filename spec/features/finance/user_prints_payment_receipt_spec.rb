@@ -2,9 +2,9 @@ require "rails_helper"
 
 describe "User prints payment receipt", type: :feature, js: true do
   before do
-    create(:submitted_finance_payment)
+    create(:locked_finance_payment)
 
-    claim_fee_entry_and_visit
+    visit_fee_entry
   end
 
   scenario "in general" do

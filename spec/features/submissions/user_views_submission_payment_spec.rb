@@ -2,12 +2,14 @@ require "rails_helper"
 
 feature "User views submission payment", type: :feature, js: true do
   before do
-    submission = create(:unassigned_submission)
+    submission = create(:submission_task).submission
+    create(:payment, submission: submission) # World Pay
     create(
       :payment,
       submission: submission,
       amount: 3000,
-      remittance: build(:submitted_finance_payment, payment_amount: 30))
+      remittance: build(:locked_finance_payment, payment_amount: 30))
+
     login_to_part_3
     visit submission_path(submission)
     click_link("Payments")

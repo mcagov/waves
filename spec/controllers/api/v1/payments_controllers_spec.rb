@@ -3,7 +3,7 @@ require "rails_helper"
 describe Api::V1::PaymentsController, type: :controller do
   context "#create" do
     before do
-      create(:incomplete_submission)
+      create(:incomplete_submission, id: "240cdfa3-c930-4829-99a0-6c160a631d2d")
       headers = { "ACCEPT" => "application/json" }
       request.headers.merge! headers
 

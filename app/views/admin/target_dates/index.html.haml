@@ -13,11 +13,14 @@
     .x_panel
       .x_content
         %p
-          Urgent processing target date (3 working days):
-          %strong= TargetDate.new(@start_date, :premium).calculate
+          1 working day away:
+          %strong= TargetDate.new(@start_date, :premium, Service.new(premium_days: 1)).calculate
         %p
-          Standard processing target date (10 working days):
-          %strong= TargetDate.new(@start_date, :standard).calculate
+          3 working days away:
+          %strong= TargetDate.new(@start_date, :premium, Service.new(premium_days: 3)).calculate
+        %p
+          10 working days away:
+          %strong= TargetDate.new(@start_date, :standard, Service.new(standard_days: 10)).calculate
 
 %h3 Bank Holidays in Wales
 

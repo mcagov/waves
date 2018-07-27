@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :submission do
     part "part_3"
-    task :new_registration
+    application_type :new_registration
     applicant_name Faker::Name.name
     applicant_email Faker::Internet.safe_email
     changeset do
@@ -21,8 +21,8 @@ FactoryGirl.define do
   end
 
   factory :electronic_delivery_submission, parent: :submission do
-    task :current_transcript
-    vessel_reg_no { create(:registered_vessel).reg_no }
+    application_type :current_transcript
+    registered_vessel { create(:registered_vessel) }
     changeset { { electronic_delivery: true } }
   end
 
@@ -37,9 +37,9 @@ FactoryGirl.define do
   end
 
   factory :unassigned_change_vessel_submission, class: "Submission" do
-    task          :change_vessel
-    source        :manual_entry
-    vessel_reg_no { create(:registered_vessel).reg_no }
+    application_type :change_vessel
+    source           :manual_entry
+    registered_vessel { create(:registered_vessel) }
 
     after(:create) do |submission|
       submission.build_defaults
@@ -68,28 +68,28 @@ FactoryGirl.define do
   end
 
   factory :assigned_re_registration_submission, parent: :assigned_submission do
-    task          :re_registration
-    vessel_reg_no { create(:registered_vessel).reg_no }
+    application_type :re_registration
+    registered_vessel { create(:registered_vessel) }
   end
 
   factory :assigned_change_address_submission, parent: :assigned_submission do
-    task          :change_address
-    vessel_reg_no { create(:registered_vessel).reg_no }
+    application_type :change_address
+    registered_vessel { create(:registered_vessel) }
   end
 
   factory :assigned_change_owner_submission, parent: :assigned_submission do
-    task          :change_owner
-    vessel_reg_no { create(:registered_vessel).reg_no }
+    application_type :change_owner
+    registered_vessel { create(:registered_vessel) }
   end
 
   factory :assigned_change_vessel_submission, parent: :assigned_submission do
-    task          :change_vessel
-    vessel_reg_no { create(:registered_vessel).reg_no }
+    application_type :change_vessel
+    registered_vessel { create(:registered_vessel) }
   end
 
   factory :assigned_closure_submission, parent: :assigned_submission do
-    task          :closure
-    vessel_reg_no { create(:registered_vessel).reg_no }
+    application_type :closure
+    registered_vessel { create(:registered_vessel) }
     changeset do
       {
         owners: [build(:declaration_owner)],
@@ -126,8 +126,8 @@ FactoryGirl.define do
   end
 
   factory :part_4_fishing_submission, parent: :assigned_submission do
-    task :re_registration
-    part :part_4
+    application_type :re_registration
+    part             :part_4
     vessel_reg_no { create(:registered_vessel, part: :part_4).reg_no }
     after(:create) do |submission|
       vessel = submission.vessel
@@ -138,20 +138,20 @@ FactoryGirl.define do
   end
 
   factory :pleasure_submission, parent: :assigned_submission do
-    task :change_vessel
-    part :part_1
+    application_type :change_vessel
+    part             :part_1
     vessel_reg_no { create(:pleasure_vessel).reg_no }
   end
 
   factory :merchant_submission, parent: :assigned_submission do
-    task :change_vessel
-    part :part_1
+    application_type :change_vessel
+    part             :part_1
     vessel_reg_no { create(:merchant_vessel).reg_no }
   end
 
   factory :part_4_merchant_submission, parent: :assigned_submission do
-    task :change_vessel
-    part :part_4
+    application_type :change_vessel
+    part             :part_4
     vessel_reg_no { create(:registered_vessel, part: :part_4).reg_no }
     after(:create) do |submission|
       vessel = submission.vessel

@@ -36,11 +36,11 @@
           %hr
           - if vessel.registration_status != :closed
             %p
-              = link_to Task.new(:registrar_closure).description,
+              = link_to DeprecableTask.new(:registrar_closure).description,
                 vessel_closure_path(vessel),
                 method: :post, class: "btn btn-block btn-warning"
             %p
-              = link_to Task.new(:forced_closure).description,
+              = link_to DeprecableTask.new(:forced_closure).description,
                 vessel_forced_closure_path(vessel),
                 method: :post, class: "btn btn-block btn-danger"
           - else
@@ -56,12 +56,12 @@
           = render partial: "vessels/modals/unfreeze_record", locals: {vessel: vessel}
         %hr
         - if vessel.can_issue_section_notice?
-          %p= link_to Task.new(:section_notice).description, "#",
+          %p= link_to DeprecableTask.new(:section_notice).description, "#",
               data: { target: "#section-notice", toggle: "modal" },
               class: "btn btn-block btn-danger"
           = render partial: "vessels/modals/section_notice", locals: {vessel: vessel}
         - elsif vessel.can_issue_termination_notice?
-          %p= link_to Task.new(:termination_notice).description,
+          %p= link_to DeprecableTask.new(:termination_notice).description,
               vessel_termination_path(vessel),
               method: :post, class: "btn btn-block btn-danger"
         - else

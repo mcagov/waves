@@ -9,8 +9,13 @@ module Submission::Reporting
           class_name: "Register::Vessel",
           foreign_key: :registered_vessel_id
 
-      base.scope :flag_in, -> { where(task: Task.flag_in) }
-      base.scope :flag_out, -> { where(task:  Task.flag_out) }
+      base.scope :flag_in, -> do
+        where(application_type: DeprecableTask.flag_in)
+      end
+
+      base.scope :flag_out, -> do
+        where(application_type:  DeprecableTask.flag_out)
+      end
 
       base.scope :merchant_vessels, (lambda do
         where(

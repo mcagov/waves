@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User approves a part 2 name", type: :feature, js: :true do
+xfeature "User approves a part 2 name", type: :feature, js: :true do
   before do
     create(:registered_vessel,
            part: :part_2,

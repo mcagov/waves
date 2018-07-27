@@ -1,0 +1,16 @@
+.row.no-print#actions
+  .col-md-6
+    = link_to  "#link-application",
+      "data-target" => "#link-application",
+      "data-toggle" => "modal",
+      class: "btn btn-md btn-warning" do
+      Link to another Application
+    = render partial: "finance_payments/modals/submission"
+  .col-md-6.pull-right
+
+    - if @submission.new_record?
+      = link_to  new_finance_payment_submission_path(@finance_payment),
+        class: "btn btn-md btn-success pull-right" do
+        Create New Application
+
+

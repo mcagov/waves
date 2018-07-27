@@ -70,7 +70,7 @@ class Builders::DeclarationBuilder
     end
 
     def initial_state_for_task
-      if Task.new(@submission.task).declarations_required_on_create?
+      if DeprecableTask.new(@submission.task).declarations_required_on_create?
         :incomplete
       else
         :not_required

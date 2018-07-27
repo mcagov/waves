@@ -21,7 +21,7 @@ class RegistrationDate
     private
 
     def ends_at
-      task = Task.new(@submission.task)
+      task = DeprecableTask.new(@submission.task)
 
       if task.provisional_registration?
         @starts_at.advance(days: 90)

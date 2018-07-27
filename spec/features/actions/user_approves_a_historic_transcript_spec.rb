@@ -1,10 +1,10 @@
 require "rails_helper"
 
-feature "User approves a historic transcript", type: :feature, js: true do
+xfeature "User approves a historic transcript", type: :feature, js: true do
   before do
     submission =
       create(:assigned_submission,
-             task: :historic_transcript,
+             application_type: :historic_transcript,
              vessel_reg_no: create(:registered_vessel).reg_no)
 
     login_to_part_3(submission.claimant)

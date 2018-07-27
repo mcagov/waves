@@ -55,7 +55,7 @@ class Finance::PaymentsController < InternalPagesController
   def finance_payment_params
     params.require(:payment_finance_payment).permit(
       :payment_date, :application_ref_no, :part,
-      :task, :vessel_reg_no, :vessel_name, :payer_name,
+      :application_type, :vessel_reg_no, :vessel_name, :payer_name,
       :service_level, :payment_type, :payment_amount, :applicant_is_agent,
       :applicant_name, :applicant_email, :service_level, :documents_received)
   end

@@ -1,0 +1,47 @@
+.row
+  .col-md-6
+    = f.input :received_at, as: :string, label: "Date Received", input_html: { "data-provide" => "datepicker", "data-date-autoclose" => "true", "data-date-format" => "dd/mm/yyyy"}
+  - if Policies::Workflow.uses_registration_types?(current_activity.part)
+    .col-md-6
+      = f.simple_fields_for :vessel do |vessel_f|
+        - vessel_f.object = f.object.vessel
+        = vessel_f.input :registration_type, as: :select,
+          collection: registration_types_collection(@submission.part),
+          label: "Registration Type",
+          include_blank: false,
+          input_html: { class: "select2 select2_single" }
+.row
+  .col-md-6
+    = f.input :application_type,
+      collection: current_activity.application_types,
+      as: :select,
+      include_blank: false,
+      label: "Application Type",
+      input_html: { class: "select2 select2_single" }
+  .col-md-6
+    #submission_vessel_reg_no
+      = f.input :vessel_reg_no, label: "Official Number".html_safe, input_html: { class: "upcase" }
+    #submission_vessel_name
+      = f.simple_fields_for :vessel do |vessel_f|
+        - vessel_f.object = f.object.vessel
+        = vessel_f.input :name, label: "Vessel Name", input_html: { class: "upcase" }
+.row
+  .col-md-6
+    = f.input :applicant_name, label: "Applicant Name", input_html: { class: "upcase" }
+  .col-md-6
+    = f.input :applicant_email, label: "Applicant's Email Address"
+.row
+  .col-md-6
+    .form-group
+      %label
+        %input{name: "submission[applicant_is_agent]", value: "1", type: "checkbox"}
+        Applicant is Agent
+.row
+  .col-md-6
+    .form-group
+      %label
+        %input{name: "new_submission_actions", value: "application_receipt", type: "checkbox"}
+        Send an Application Receipt email
+.row
+  .col-md-12
+    = f.input :documents_received

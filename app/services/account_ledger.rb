@@ -1,7 +1,6 @@
 class AccountLedger
   def initialize(submission)
     @submission = submission
-    @task = Task.new(submission.task)
   end
 
   def ui_color
@@ -14,20 +13,19 @@ class AccountLedger
   end
 
   def payment_status
-    return :not_applicable unless @task.payment_required?
-    return :unpaid if @submission.payments.empty?
-    return :paid if amount_paid >= amount_due
+    return :not_applicable if payment_due.zero?
+    return :unpaid if payment_received.zero?
+    return :paid if balance >= 0
     :part_paid
   end
 
-  def amount_due
-    @submission
-      .line_items.map { |line_item| line_item.subtotal.to_i }
-      .inject(:+) || 0
+  def payment_due
+    @payment_due ||= @submission.tasks.map(&:price).inject(:+) || 0
   end
 
-  def amount_paid
-    @submission
+  def payment_received
+    @payment_received ||=
+      @submission
       .payments.map { |payment| payment.amount.to_i }
       .inject(:+) || 0
   end
@@ -37,6 +35,6 @@ class AccountLedger
   end
 
   def balance
-    (amount_paid.to_f - amount_due.to_f) / 100
+    payment_received - payment_due
   end
 end

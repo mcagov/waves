@@ -17,7 +17,7 @@ describe "User searches globally", js: true do
 
     click_on("Applications (1)")
     click_on("Boaty McBoatface")
-    expect(page).to have_css("h1", text: "New Registration")
+    expect(page).to have_css("h1", text: "ABC456")
   end
 
   scenario "for a vessel" do

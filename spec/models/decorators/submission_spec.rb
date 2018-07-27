@@ -36,7 +36,9 @@ describe Decorators::Submission, type: :model do
     before do
       task = double(:task)
 
-      expect(Task).to receive(:new).with(submission.task).and_return(task)
+      expect(DeprecableTask)
+        .to receive(:new).with(submission.task).and_return(task)
+
       expect(task).to receive(:vessel_can_be_edited?)
     end
 
@@ -49,7 +51,9 @@ describe Decorators::Submission, type: :model do
     before do
       task = double(:task)
 
-      expect(Task).to receive(:new).with(submission.task).and_return(task)
+      expect(DeprecableTask)
+        .to receive(:new).with(submission.task).and_return(task)
+
       expect(task).to receive(:ownership_can_be_changed?)
     end
 
@@ -62,7 +66,9 @@ describe Decorators::Submission, type: :model do
     before do
       task = double(:task)
 
-      expect(Task).to receive(:new).with(submission.task).and_return(task)
+      expect(DeprecableTask)
+        .to receive(:new).with(submission.task).and_return(task)
+
       expect(task).to receive(:address_can_be_changed?)
     end
 
@@ -97,7 +103,10 @@ describe Decorators::Submission, type: :model do
     end
 
     context "for a new registration" do
-      let(:submission) { build(:submission, task: :new_registration) }
+      let(:submission) do
+        build(:submission, application_type: :new_registration)
+      end
+
       it { expect(subject).to be_nil }
     end
 

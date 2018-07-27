@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User views re_registration submission", type: :feature, js: true do
+xfeature "User views re_registration submission", type: :feature, js: true do
   let(:submission) { create(:assigned_re_registration_submission) }
 
   before do

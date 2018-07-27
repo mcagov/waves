@@ -14,7 +14,7 @@ describe Builders::ClosedRegistrationBuilder do
 
     let!(:submission) do
       create(:submission,
-             registered_vessel: registered_vessel, task: :closure)
+             registered_vessel: registered_vessel, application_type: :closure)
     end
 
     let(:registration) { registered_vessel.reload.current_registration }

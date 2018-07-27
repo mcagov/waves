@@ -44,16 +44,29 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :notifications, only: [:show] do
-    member do
-      post :cancel
-      post :refer
+  resources :finance_payments, only: [:show, :update] do
+    collection do
+      get :unattached_payments
+      get :unattached_refunds
     end
+    member do
+      patch :update
+      patch :link
+    end
+    resources :payments,
+              controller: "finance_payments/payments",
+              only: [:update]
+    resources :submissions,
+              controller: "finance_payments/submissions",
+              only: [:new, :create]
   end
 
-  resources :finance_payments, only: [:show, :update]
-
   resources :submissions, only: [:new, :create, :show, :edit, :update] do
+    collection do
+      get :open
+      get :completed
+    end
+
     resources :agent,
               controller: "submission/agents", only: [:update, :destroy]
 
@@ -127,10 +140,6 @@ Rails.application.routes.draw do
               controller: "submission/engines",
               only: [:create, :update, :destroy]
 
-    resources :line_items,
-              controller: "submission/line_items",
-              only: [:create, :update, :destroy]
-
     resources :managers,
               controller: "submission/managers",
               only: [:create, :update, :destroy]
@@ -142,17 +151,6 @@ Rails.application.routes.draw do
     resource :official_no,
              controller: "submission/official_no",
              only: [:update]
-
-    resource :finance_payment,
-             only: [:show, :edit],
-             controller: "submission/finance_payments" do
-      member do
-        patch :update
-        patch :convert
-        patch :link
-        patch :unlink
-      end
-    end
 
     resource :managing_owner,
              only: [:update],
@@ -178,11 +176,26 @@ Rails.application.routes.draw do
              controller: "submission/signatures",
              only: [:show, :update]
 
-    resource :states, controller: "submission/states", only: [:show] do
+    resources :tasks,
+              controller: "submission/tasks",
+              only: [:index, :create, :destroy, :update, :show] do
+      collection do
+        post :confirm
+      end
+
       member do
         post :claim
         post :unclaim
         post :claim_referral
+      end
+
+      resource :notification,
+               controller: "submission/task/notifications",
+               only: [:show] do
+        member do
+          post :cancel
+          post :refer
+        end
       end
     end
   end
@@ -248,7 +261,7 @@ Rails.application.routes.draw do
   end
 
   %w(
-    incomplete my-tasks team-tasks fee-entry refunds-due
+    incomplete my-tasks team-tasks
     referred unclaimed cancelled next-task
   ).each do |action|
     get "/tasks/#{action}",

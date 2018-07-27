@@ -8,7 +8,6 @@
       %th Application Type
       %th Source
       %th Status
-      %th Target Date
       %th
     %tbody
       - submissions.each do |submission|
@@ -19,7 +18,6 @@
           %td= submission.job_type
           %td= submission.source_description
           %td= submission.state.titleize
-          %td= submission.target_date
           %td
             .pull-right
               = link_to submission_path(submission),

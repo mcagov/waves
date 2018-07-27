@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User sets the correspondent", js: true do
+xdescribe "User sets the correspondent", js: true do
   scenario "adding an owner and setting them as correspondent" do
     visit_name_approved_part_2_submission
 

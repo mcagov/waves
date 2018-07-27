@@ -72,7 +72,7 @@ class Registration < ApplicationRecord
   end
 
   def prints_duplicate_certificate?
-    Task.new(task).duplicates_certificate?
+    DeprecableTask.new(task).duplicates_certificate?
   end
 
   def owner_name_address_shareholding
@@ -92,7 +92,7 @@ class Registration < ApplicationRecord
   end
 
   def task
-    submission ? submission.task : :new_registration
+    submission ? submission.application_type : :new_registration
   end
 
   def symbolized_registry_info

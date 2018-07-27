@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User edits submission for other tasks", js: true do
+xdescribe "User edits submission for other tasks", js: true do
   scenario "for a change_address" do
     submission = create(:assigned_change_address_submission)
     login_to_part_3(submission.claimant)

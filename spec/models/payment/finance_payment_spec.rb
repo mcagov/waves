@@ -7,7 +7,7 @@ describe Payment::FinancePayment do
         described_class.create(
           payment_date: Time.zone.today,
           part: :part_1,
-          task: :unknown,
+          application_type: :unknown,
           vessel_reg_no: "",
           payment_type: :cash,
           payment_amount: "25",
@@ -20,8 +20,6 @@ describe Payment::FinancePayment do
           documents_received: "some files"
         )
       end
-
-      let(:submission) { finance_payment.submission }
 
       it "is actioned_by a user" do
         expect(finance_payment.actioned_by).to be_present
@@ -37,48 +35,6 @@ describe Payment::FinancePayment do
         it "creates the payment with the expected amount" do
           expect(finance_payment.payment.amount).to eq(2500)
         end
-
-        it "sets the officer_intervention_required flag" do
-          expect(submission.officer_intervention_required)
-            .to be_truthy
-        end
-
-        it "sets the source" do
-          expect(submission.source.to_sym).to eq(:manual_entry)
-        end
-
-        it "sets the state to unassigned so it is ready to be claimed" do
-          expect(submission).to be_unassigned
-        end
-
-        it "sets the target date" do
-          expect(submission.target_date).to be_present
-        end
-
-        it "sets the applicant_name" do
-          expect(submission.applicant_name).to eq("Bob")
-        end
-
-        it "sets the applicant_email" do
-          expect(submission.applicant_email)
-            .to eq("bob@example.com")
-        end
-
-        it "sets the applicant_is_agent flag" do
-          expect(finance_payment.submission.applicant_is_agent).to be_truthy
-        end
-
-        it "sets the linkable_ref_no in the changeset" do
-          expect(submission.linkable_ref_no).to eq("ABC123")
-        end
-
-        it "sets the service_level" do
-          expect(submission.service_level).to eq("premium")
-        end
-
-        it "sets the documents_received" do
-          expect(submission.documents_received).to eq("some files")
-        end
       end
     end
   end
@@ -93,7 +49,7 @@ describe Payment::FinancePayment do
         vessel_reg_no: registered_vessel.reg_no,
         payment_amount: "25",
         actioned_by: create(:user),
-        task: :change_vessel
+        application_type: :change_vessel
       )
     end
 
@@ -105,14 +61,84 @@ describe Payment::FinancePayment do
       described_class.create(
         part: :part_1,
         payment_amount: "bob",
-        task: nil,
+        application_type: nil,
         vessel_reg_no: "nonexistent"
       )
     end
 
     it { expect(finance_payment.errors).to include(:payment_date) }
     it { expect(finance_payment.errors).to include(:payment_amount) }
-    it { expect(finance_payment.errors).to include(:task) }
+    it { expect(finance_payment.errors).to include(:application_type) }
     it { expect(finance_payment.errors).to include(:vessel_reg_no) }
+  end
+
+  context "#submission" do
+    let(:finance_payment) { create(:locked_finance_payment) }
+    subject { finance_payment.submission }
+
+    context "when the payment is attached to a submission" do
+      let!(:submission) { create(:submission) }
+      before do
+        finance_payment.payment.update_attribute(:submission_id, submission.id)
+      end
+
+      it "assigns the submission" do
+        expect(subject).to eq(submission)
+      end
+
+      it { expect(subject).to be_persisted }
+    end
+
+    context "when the payment is not attached to a submission" do
+      it { expect(subject.part).to eq("part_3") }
+      it { expect(subject.application_type). to eq("new_registration") }
+      it { expect(subject.vessel_name). to eq("MY BOAT") }
+      it { expect(subject.applicant_name). to eq("ALICE") }
+      it { expect(subject.applicant_email). to eq("alice@example.com") }
+      it { expect(subject.applicant_is_agent).to be_truthy }
+      it { expect(subject.documents_received).to eq("Excel file") }
+
+      it do
+        expect(subject.received_at.to_date).to eq(finance_payment.payment_date)
+      end
+
+      it { expect(subject).to be_new_record }
+    end
+
+    context "when the payment is for a registered vessel" do
+      let(:registered_vessel) { create(:registered_vessel) }
+
+      before do
+        finance_payment
+          .update_attribute(:vessel_reg_no, registered_vessel.reg_no)
+      end
+
+      it { expect(subject.vessel_reg_no).to eq(registered_vessel.reg_no) }
+    end
+  end
+
+  context "#related_submission" do
+    let!(:submission) { create(:unassigned_change_vessel_submission) }
+    let(:finance_payment) { create(:locked_finance_payment, params) }
+
+    subject { finance_payment.related_submission }
+
+    context "with a valid application_ref_no" do
+      let(:params) { { application_ref_no: submission.ref_no } }
+
+      it { expect(subject).to eq(submission) }
+    end
+
+    context "with an invalid application_ref_no" do
+      let(:params) { { application_ref_no: "foo" } }
+
+      it { expect(subject).to be_nil }
+    end
+
+    context "with a valid vessel_reg_no" do
+      let(:params) { { vessel_reg_no: submission.vessel_reg_no } }
+
+      it { expect(subject).to eq(submission) }
+    end
   end
 end

@@ -1,0 +1,38 @@
+- @finance_payment = Decorators::FinancePayment.new(@finance_payment)
+%h1= @finance_payment.page_heading
+
+.row
+  .col-md-6
+    = render partial: "finance_payment", locals: { finance_payment: @finance_payment }
+  .col-md-6
+    #related_submission.x_panel
+      %h2.x_title Related Application
+      .x_content
+        - if @related_submission.blank?
+          %tr
+            %td No Related Applications
+        - else
+
+          = render partial: "search/submission", locals: { submission: @related_submission }
+          %p
+          = simple_form_for @finance_payment.payment,
+            url: finance_payment_payment_path(@finance_payment, @finance_payment.payment),
+            method: :put do |f|
+            - f.object.submission_id = @related_submission.id
+            = f.input :submission_id, as: :hidden
+            = button_tag(type: "submit", class: "btn btn-success") do
+              Link to this Application
+
+    #related_vessel.x_panel
+      %h2.x_title Related Vessel
+      .x_content
+        - if @related_vessel.blank?
+          %tr
+            %td{colspan: 3} No Related Vessels
+        - else
+          %table.table
+            %tbody
+              = render partial: "search/vessel", locals: { vessel: @related_vessel }
+
+
+= render partial: "actions"

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User views owner submission details", type: :feature, js: true do
+xfeature "User views owner submission details", type: :feature, js: true do
   let!(:submission) { create(:unassigned_change_vessel_submission) }
   let!(:registered_vessel) { submission.registered_vessel }
   let!(:registered_owner) { registered_vessel.owners.first }

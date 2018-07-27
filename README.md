@@ -108,7 +108,7 @@ bundle exec clockwork lib/clock.rb
 
 Schedule: Daily
 
-If the `submission#referred_until` date has been reached, applications should be restored to the unclaimed tasks queue. To run this task:
+If the `submission#referred_until` date has been reached, applications should be restored to the unclaimed tasks queue. To run this application_type:
 
   `rake waves:expire_referrals`
 
@@ -117,7 +117,8 @@ If the `submission#referred_until` date has been reached, applications should be
 ##### Submissions
 Submissions are requests to change something in the Registry of Ships. In the UI, we call them 'Applications' but in the Rails world, 'application' is a reserved word. A submission can be for a variety of different tasks.
 
-The full list of tasks can be retrieved from `Task.all_task_types`. Note that the Task  class is in the WavesUtilities gem.
+The full list of application typ can be retrieved from `ApplicationType.all_`. Note that the ApplicationType class references the WavesUtilities gem.
+
 ##### State Machine
 Submissions travel through a state machine `app/models/submission/state_machine.rb`. When a submission has reached the `:unassigned` state, it can be claimed by a Registration Officer for processing. When a submission has been claimed (state: `assigned`), it can be `referred`, `cancelled` or `approved`. Business rules apply to the action taken when one of these states is initiated, e.g. sending a notification email, setting the processing target date, creating or updating an entry in the registry.
 
@@ -125,13 +126,13 @@ Submissions travel through a state machine `app/models/submission/state_machine.
 There are three points of entry for a submission:
 1. Via a customer entry on the Online portal (submission#source `:online`)
 2. Via a manual entry by the Finance Team (submission#source `:manual_entry`)
-3. Via a manual entry by a Registration Officer (submission#source `:manual_entry`)
+3. ~~Via a manual entry by a Registration Officer (submission#source `:manual_entry`)~~ This has been changed: Finance Team create Payments which are linked or converted to applications by a Registration Officer.
 
 The initial state of an `:online` entry is `:incomplete`. When payment is completed and all the owners have made their declarations, then it moves to `:unassigned` and can be claimed by a Registration Officer.
 
 When a submission enters the default :incomplete state, it fires an event `build_default`, invoking the `SubmissionBuilder` and setting up all the defaults. If you want to initialize a submission object to build a form or any other instance when you don't want a record to be created, you need to forecfully set the state to :initializing. For example: `Submission.new(state: :initializing)`.
 
-The initial state of a `:manual_entry` is `:unassigned` so that it can be claimed. Note that a submission created by the Finance Team sets the flag `submission#officer_intervention_required` to ensure that the Registration Officer checks the details before they can action it.
+The initial state of a `:manual_entry` is `:unassigned` so that it can be claimed.
 
 ##### Submission Behaviour
 A submission's behaviour depends on the follwing attributes:
@@ -143,9 +144,6 @@ A submission's behaviour depends on the follwing attributes:
 ##### Submission Attributes
 The changes that the submission will perform are stored as JSON objects in submission#changeset. If the submission is associated with a registered vessel, the 'current information' will be stored as JSON objects in submission#changeset.
 These JSON objects are mounted with the `VirtualModel` class and exposed by the submission as: `submission.vessel`, etc.
-
-Note: Don't use changeset as a miscellaneous data store. I just got burned trying to store `linkable_ref_no` in the
-changeset before the `Builder::SubmissionBuilder` had run. Consequently, the changeset didn't get populated.
 
 ##### Payments
 Payments come in two flavours and have a polymorphic association with the `Payment` model.

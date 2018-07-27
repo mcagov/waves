@@ -14,14 +14,13 @@ class RegisteredVessel::ForcedClosureController < InternalPagesController
   def complete_forced_closure_submission
     @submission =
       Builders::CompletedSubmissionBuilder.create(
-        :forced_closure,
-        current_activity.part,
-        @vessel,
-        current_user)
+        :forced_closure, current_activity.part, @vessel, current_user)
 
     @current_registration =
-      Builders::ClosedRegistrationBuilder
-      .create(@submission, Time.zone.now, Task.new(:forced_closure).description)
+      Builders::ClosedRegistrationBuilder.create(
+        @submission,
+        Time.zone.now,
+        DeprecableTask.new(:forced_closure).description)
   end
 
   def build_print_jobs

@@ -1,21 +1,10 @@
-.row
-  .col-md-6
-    %h1.heading_no_top_margin
-      = heading
-  .col-md-6
-    .pull-right
-      = render partial: "tasks/actions/start_new_application"
-      = link_to tasks_next_task_path, class: 'btn btn-primary' do
-        %i.fa.fa-arrow-circle-right{style: 'font-size: 1.2em; font-weight: bold;'}
-        Process Next Application
-
+= render partial: "heading", locals: { heading: heading }
 .row
   .col-md-12
     = yield :filter_registration_type
 .row
   .col-md-12
-
-    - if @my_tasks && submissions.empty?
+    - if @my_tasks && @tasks.empty?
       .x_panel
         .x_content
           %p.text-center
@@ -26,7 +15,7 @@
             Your task list is clear.
           %p.text-center
             = link_to 'Get More Work', tasks_unclaimed_path, class: 'btn btn-primary'
-    - elsif submissions.empty?
+    - elsif @tasks.empty?
       .x_panel
         .x_panel
           .x_content
@@ -35,44 +24,37 @@
 
     - else
       .x_panel
-        %table#submissions.table.table-striped.table-hover
+        %table.table.table-striped.table-hover#tasks
           %thead
             %tr
               %th Vessel
               %th Official Number
               - if Policies::Workflow.uses_registration_types?(current_activity.part)
                 %th Registration Type
-              %th Application Ref No.
-              %th Job Type
+              %th Ref No.
+              %th Task
               %th Date Received
               %th Referred Until
               %th Target Date
-              %th Payment
-              %th Source
               %th Last Update
               %th
           %tbody
-            - submissions.each do |submission|
-              - submission = Decorators::Submission.new(submission)
+            - @tasks.each do |task|
+              - submission = Decorators::Submission.new(task.submission)
 
-              %tr.submission{ id: "submission_#{ submission.id }"}
-                %td.vessel-name= link_to submission.vessel_name, submission_path(submission)
+              %tr.task{ id: "task_#{ task.id }"}
+                %td.vessel-name= link_to submission.vessel_name, submission_task_path(submission, task)
                 %td= submission.vessel_reg_no
                 - if Policies::Workflow.uses_registration_types?(current_activity.part)
                   %td.registration_type= submission.registration_type.try(:humanize)
-                %td= submission.ref_no
-                %td= link_to submission.job_type, submission_path(submission)
-                %td= submission.received_at
-                %td= submission.referred? ? submission.referred_until : "n/a"
-                %td= TargetDate.days_away(submission.target_date)
-                %td.payment
-                  = payment_status_icon(submission.payment_status)
-                  - if submission.officer_intervention_required?
-                    = formatted_amount(submission.payment_received)
-                %td= submission.source_description
-                %td= submission.updated_at
-                %td= render partial: "/tasks/actions/claim_button", locals: {submission: submission}
+                %td= task.ref_no
+                %td= link_to task.service, submission_path(submission)
+                %td= task.received_at
+                %td= task.referred? ? task.referred_until : "n/a"
+                %td= TargetDate.days_away(task.target_date)
+                %td= task.updated_at
+                %td= render partial: "/tasks/actions/claim_button", locals: {submission: submission, task: task}
 
-      = will_paginate @submissions, renderer: BootstrapPagination::Rails
+      = will_paginate @task, renderer: BootstrapPagination::Rails
 
 

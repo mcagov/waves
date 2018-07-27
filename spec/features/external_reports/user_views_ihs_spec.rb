@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User views IHS/Fairplay reports", js: true do
+xdescribe "User views IHS/Fairplay reports", js: true do
   before do
     login_to_reports
     visit admin_report_path(:fishing_regional)

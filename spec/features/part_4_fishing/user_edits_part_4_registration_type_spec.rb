@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User edits part 2 registration_type", type: :feature, js: :true do
+xfeature "User edits part 2 registration_type", type: :feature, js: :true do
   scenario "in general" do
     visit_part_4_new_registration
     expect_port_no_fields(false) # the registration_type is "Commercial"

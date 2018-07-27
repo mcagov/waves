@@ -5,7 +5,7 @@ describe Builders::NotificationBuilder do
     let(:submission) { create(:completed_submission) }
 
     before do
-      allow_any_instance_of(Task)
+      allow_any_instance_of(DeprecableTask)
         .to receive(:emails_application_approval?)
         .and_return(sends_email?)
 

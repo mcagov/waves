@@ -1,6 +1,6 @@
 require "rails_helper"
 
-feature "User declares a submission", type: :feature, js: true do
+xfeature "User declares a submission", type: :feature, js: true do
   let!(:submission) { create(:incomplete_submission) }
   let!(:bob) { create(:user, name: "Bob") }
 

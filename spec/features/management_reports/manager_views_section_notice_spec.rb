@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "Manager views section notice report", js: true do
+xdescribe "Manager views section notice report", js: true do
   before do
     create(:registered_vessel) # should not appear in the report
 

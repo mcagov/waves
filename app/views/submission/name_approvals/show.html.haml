@@ -89,5 +89,5 @@
             #notes_tab.tab-pane{"aria-labelledby" => "notes-tab", :role => "tabpanel"}
               #notes= render partial: "submission/notes/base", locals: { submission: @submission }
 
-= render partial: "submissions/actions/base",
+= render partial: "submission/task/actions/base",
   locals: { submission: @submission }

@@ -4,100 +4,244 @@ u.password = "password"
 u.access_level = :system_manager
 u.save!
 
-Fee.delete_all
+Service.delete_all
 
-FEES = [
-  [:part_1_new_registration, :new_registration, 12400, 18000],
-  [:part_2_simple_new_registration, :new_registration, 11100, nil],
-  [:part_2_full_new_registration, :new_registration, 13100, 18000],
-  [:part_3_new_registration, :new_registration, 2500, 5000],
-  [:part_4_new_registration, :new_registration, 12400, 18000],
+Service.create(
+  name: "New Registration",
+  standard_days: 10,
+  premium_days: 1,
+  part_1: { standard: 124, premium: 180 },
+  part_3: { standard: 25, premium: 50 },
+  part_4: { standard: 124, premium: 180 })
 
-  [:part_1_provisional, :provisional_registration, 11700, 14000],
-  [:part_2_simple_provisional, :provisional_registration, 10500, 14000],
-  [:part_2_full_provisional, :provisional_registration, 12200, 14000],
+Service.create(
+  name: "New Registration - full",
+  standard_days: 10,
+  premium_days: 1,
+  part_2: { standard: 124, premium: 180 },
+  part_4: { standard: 131, premium: 180 })
 
-  [:part_1_new_registration, :transfer_from_bdt, 11500, 10000],
-  [:part_1_transfer_to_bdt, :transfer_to_bdt, 3500, 10000],
-  [:part_1_closure, :transfer_to_bdt, 3500, 10000],
-  [:part_registrar_closure, :transfer_to_bdt, 3500, 10000],
+Service.create(
+  name: "New Registration - simple",
+  standard_days: 10,
+  part_2: { standard: 111 },
+  part_4: { standard: 131, premium: 180 })
 
-  [:part_1_renewal, :renewal, 4900, 10000],
-  [:part_2_simple_renewal, :renewal, 4900, 10000],
-  [:part_2_full_renewal, :renewal, 4900, 10000],
-  [:part_3_renewal, :renewal, 2500, 5000],
-  [:part_4_renewal, :renewal, 4900, 10000],
+Service.create(
+  name: "Provisional Registration",
+  standard_days: 3,
+  premium_days: 1,
+  part_1: { standard: 117, premium: 140 })
 
-  [:part_1_re_registration, :re_registration, 12400, 18000],
-  [:part_2_simple_re_registration, :re_registration, 11100, nil],
-  [:part_2_full_re_registration, :re_registration, 13100, 18000],
-  [:part_3_re_registration, :re_registration, 2500, 5000],
+Service.create(
+  name: "Provisional Registration - full",
+  standard_days: 3,
+  premium_days: 1,
+  part_2: { standard: 122, premium: 140 })
 
-  [:part_1_change_vessel, :convert_provisional_to_full, 5500, 5000],
+Service.create(
+  name: "Provisional Registration - simple",
+  standard_days: 3,
+  part_2: { standard: 122 })
 
-  [:part_2_simple_change_vessel, :convert_provisional_to_simple, 5500, 5000],
-  [:part_2_full_change_vessel, :convert_provisional_to_full, 5500, 5000],
+Service.create(
+  name: "Convert simple to full registration",
+  standard_days: 10,
+  premium_days: 1,
+  part_2: { standard: 61, premium: 100 })
 
-  # Note, we would expect a "convert to full" to be implemented for a submission
-  # where the registration type has already been set to "full". But it might
-  # still be set as "simple", so we need to ensure this task will appear for
-  # all part_2 submissions.
-  [:part_2_simple_change_vessel, :convert_simple_to_full, 6100, 10000],
-  [:part_2_full_change_vessel, :convert_provisional_to_full, 5500, 5000],
+Service.create(
+  name: "Convert provisional to full",
+  standard_days: 10,
+  premium_days: 1,
+  part_1: { standard: 55, premium: 50 },
+  part_2: { standard: 55, premium: 50 })
 
-  # To add to the confusion, we also have a task "simple_to_full"
-  [:part_2_simple_simple_to_full, :convert_simple_to_full, 6100, 10000],
-  [:part_2_full_simple_to_full, :convert_simple_to_full, 6100, 10000],
+Service.create(
+  name: "Renewal",
+  standard_days: 10,
+  premium_days: 1,
+  part_1: { standard: 49, premium: 100 },
+  part_2: { standard: 49, premium: 100 },
+  part_3: { standard: 25, premium: 50 },
+  part_4: { standard: 49, premium: 100 })
 
-  [:part_1_change_owner, :change_owner, 8000, 10000, 1500],
-  [:part_2_simple_change_owner, :change_owner, 6300, 10000, 1500],
-  [:part_2_full_change_owner, :change_owner, 8000, 10000, 1500],
-  [:part_3_change_owner, :change_owner, 2500, 5000],
-  [:part_4_change_owner, :change_owner, 8000, 10000],
+Service.create(
+  name: "Re-registration",
+  standard_days: 10,
+  premium_days: 1,
+  part_1: { standard: 124, premium: 180 },
+  part_3: { standard: 25, premium: 50 },
+  part_4: { standard: 124, premium: 180 })
 
-  [:part_1_change_vessel, :name_or_port_of_registry, 3700, 10000, 1700],
-  [:part_2_simple_change_vessel, :name_or_port_of_registry, 3700, 10000, 1700],
-  [:part_2_full_change_vessel, :name_or_port_of_registry, 3700, 10000, 1700],
-  [:part_4_change_vessel, :name_or_port_of_registry, 3700, 10000, 1700],
+Service.create(
+  name: "Re-registration - full",
+  standard_days: 10,
+  premium_days: 1,
+  part_2: { standard: 131, premium: 180 },
+  part_4: { standard: 131, premium: 180 })
 
-  [:part_1_mortgage, :mortgage, 8400, 10000, 1500],
-  [:part_2_full_mortgage, :mortgage, 8400, 10000, 1500],
+Service.create(
+  name: "Re-registration - simple",
+  standard_days: 10,
+  part_2: { standard: 111 },
+  part_4: { standard: 111 })
 
-  [:part_1_mortgage, :mortgage_intent, 2500, 5000, 5000],
-  [:part_1_new_registration, :mortgage_intent, 2500, 5000, 5000],
-  [:part_1_re_registration, :mortgage_intent, 2500, 5000, 5000],
+Service.create(
+  name: "Change of ownership (full)",
+  standard_days: 10,
+  premium_days: 1,
+  part_1: { standard: 80, premium: 100, subsequent: 15 },
+  part_2: { standard: 80, premium: 100, subsequent: 15 },
+  part_3: { standard: 25, premium: 50 },
+  part_4: { standard: 80, premium: 100, subsequent: 15 })
 
-  [:part_2_full_mortgage, :mortgage_intent, 2500, 5000, 5000],
-  [:part_2_full_new_registration, :mortgage_intent, 2500, 5000, 5000],
-  [:part_2_full_re_registration, :mortgage_intent, 2500, 5000, 5000],
+Service.create(
+  name: "Change of ownership - simple",
+  standard_days: 10,
+  premium_days: 1,
+  part_2: { standard: 63, premium: 100, subsequent: 15 },
+  part_4: { standard: 63, premium: 100, subsequent: 15 })
 
-  [:part_1_historic_transcript, :historic_transcript, 3200, 5000],
-  [:part_2_simple_historic_transcript, :historic_transcript, 3200, 5000],
-  [:part_2_full_historic_transcript, :historic_transcript, 3200, 5000],
-  [:part_3_historic_transcript, :historic_transcript, 2500, 5000],
-  [:part_4_historic_transcript, :historic_transcript, 3200, 5000],
+Service.create(
+  name: "Change of name/port/tonnage (1&4) (expects C&M to be issued)",
+  standard_days: 10,
+  premium_days: 1,
+  part_1: { standard: 37, premium: 100, subsequent: 17 },
+  part_2: { standard: 37, premium: 100, subsequent: 17 },
+  part_4: { standard: 37, premium: 100, subsequent: 17 })
 
-  [:part_1_issue_csr, :issue_csr, 2100, 5000],
-  [:part_4_issue_csr, :issue_csr, 2100, 5000],
+Service.create(
+  name: "Change of vessel details",
+  standard_days: 10,
+  premium_days: 1,
+  part_1: { standard: 37, premium: 100, subsequent: 17 },
+  part_2: { standard: 37, premium: 100, subsequent: 17 },
+  part_3: { standard: 25, premium: 50 },
+  part_4: { standard: 37, premium: 100, subsequent: 17 })
 
-  [:part_1_csr_certified_copy, :csr_certified_copy, 3200, 5000],
-  [:part_4_csr_certified_copy, :csr_certified_copy, 3200, 5000],
+Service.create(
+  name: "Current transcript",
+  standard_days: 3,
+  premium_days: 1,
+  part_1: { standard: 21, premium: 50 },
+  part_2: { standard: 21, premium: 50 },
+  part_3: { standard: 21, premium: 50 },
+  part_4: { standard: 21, premium: 50 })
 
-  [:part_1_duplicate_certificate, :duplicate_certificate, 2100, 5000],
-  [:part_2_simple_duplicate_certificate, :duplicate_certificate, 2100, 5000],
-  [:part_2_full_duplicate_certificate, :duplicate_certificate, 2100, 5000],
-  [:part_3_duplicate_certificate, :duplicate_certificate, 2100, 5000],
-  [:part_4_duplicate_certificate, :duplicate_certificate, 2100, 5000],
+Service.create(
+  name: "Historic transcript",
+  standard_days: 3,
+  premium_days: 1,
+  part_1: { standard: 32, premium: 50 },
+  part_2: { standard: 32, premium: 50 },
+  part_3: { standard: 32, premium: 50 },
+  part_4: { standard: 32, premium: 50 })
 
-  [:all_parts, :copy_of_document, 1300, 5000, 1300],
-  [:all_parts, :current_transcript, 2100, 5000, 0],
-].freeze
+Service.create(
+  name: "Duplicate certificate",
+  standard_days: 3,
+  premium_days: 1,
+  part_1: { standard: 21, premium: 50 },
+  part_2: { standard: 21, premium: 50 },
+  part_3: { standard: 25, premium: 50 },
+  part_4: { standard: 21, premium: 50 })
 
-FEES.each do |seed|
-  Fee.create(
-    category: seed[0],
-    task_variant: seed[1],
-    price: seed[2],
-    premium_addon_price: seed[3],
-    subsequent_price: seed[4])
-end
+Service.create(
+  name: "Mortgage intent",
+  standard_days: 3,
+  premium_days: 1,
+  part_1: { standard: 25, premium: 50 },
+  part_2: { standard: 25, premium: 50 })
+
+Service.create(
+  name: "Mortgage registration",
+  standard_days: 3,
+  premium_days: 1,
+  part_1: { standard: 84, premium: 100, subsequent: 15 },
+  part_2: { standard: 84, premium: 100, subsequent: 15 })
+
+Service.create(
+  name: "Transfer in",
+  standard_days: 3,
+  premium_days: 1,
+  part_1: { standard: 115, premium: 50 })
+
+Service.create(
+  name: "Transfer out",
+  standard_days: 3,
+  premium_days: 1,
+  part_1: { standard: 35, premium: 100 })
+
+Service.create(
+  name: "Courier/postage fee (allocate funds, no processing)",
+  part_1: { standard: 0 },
+  part_2: { standard: 0 },
+  part_3: { standard: 0 },
+  part_4: { standard: 0 })
+
+Service.create(
+  name: "Copy of a document relating to a registration",
+  standard_days: 10,
+  premium_days: 1,
+  part_1: { standard: 13, premium: 50 },
+  part_2: { standard: 13, premium: 50 },
+  part_3: { standard: 13, premium: 50 },
+  part_4: { standard: 13, premium: 50 })
+
+Service.create(
+  name: "Change of address",
+  standard_days: 10,
+  part_1: { standard: 0 },
+  part_2: { standard: 0 },
+  part_3: { standard: 0 },
+  part_4: { standard: 0 })
+
+Service.create(
+  name: "General Enquiry/other non-fee task",
+  standard_days: 10,
+  part_1: { standard: 0 },
+  part_2: { standard: 0 },
+  part_3: { standard: 0 },
+  part_4: { standard: 0 })
+
+Service.create(
+  name: "Mortgage discharge",
+  standard_days: 10,
+  part_1: { standard: 0 },
+  part_2: { standard: 0 })
+
+Service.create(
+  name: "Mortgage transfer",
+  standard_days: 10,
+  part_1: { standard: 0 },
+  part_2: { standard: 0 })
+
+Service.create(
+  name: "Registration Closure",
+  standard_days: 10,
+  part_1: { standard: 0 },
+  part_2: { standard: 0 },
+  part_3: { standard: 0 },
+  part_4: { standard: 0 })
+
+Service.create(
+  name: "Carving and marking receipt",
+  standard_days: 3,
+  premium_days: 1,
+  part_1: { standard: 0 },
+  part_2: { standard: 0 },
+  part_4: { standard: 0 })
+
+Service.create(
+  name: "Issue CSR",
+  standard_days: 3,
+  part_1: { standard: 0 },
+  part_2: { standard: 0 },
+  part_4: { standard: 0 })
+
+Service.create(
+  name: "Manual Override",
+  part_1: { standard: 0 },
+  part_2: { standard: 0 },
+  part_4: { standard: 0 })

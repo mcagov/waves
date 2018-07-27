@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User processes a manual override", type: :feature, js: true do
+xdescribe "User processes a manual override", type: :feature, js: true do
   scenario "in general" do
     visit_registered_vessel
 

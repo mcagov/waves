@@ -61,7 +61,7 @@ describe Registration do
     let!(:registration) { create(:registered_vessel).current_registration }
 
     before do
-      submission = double(:submission, task: task)
+      submission = double(:submission, application_type: application_type)
 
       allow(registration)
         .to receive(:submission)
@@ -71,13 +71,13 @@ describe Registration do
     subject { registration.prints_duplicate_certificate? }
 
     context "when the submission was for a duplicate_certificate" do
-      let(:task) { :duplicate_certificate }
+      let(:application_type) { :duplicate_certificate }
 
       it { expect(subject).to be_truthy }
     end
 
     context "when the submission was for a new_registration" do
-      let(:task) { :new_registration }
+      let(:application_type) { :new_registration }
 
       it { expect(subject).to be_falsey }
     end

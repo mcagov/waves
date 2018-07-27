@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User save vessel details", js: :true do
+xdescribe "User save vessel details", js: :true do
   scenario "in general" do
     visit_name_approved_part_2_submission
 

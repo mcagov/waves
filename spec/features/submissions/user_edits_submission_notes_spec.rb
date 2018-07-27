@@ -2,7 +2,7 @@ require "rails_helper"
 
 describe "User edits submission notes", js: true do
   before do
-    visit_assigned_submission
+    visit_claimed_task
   end
 
   scenario "creating a note then editing it" do

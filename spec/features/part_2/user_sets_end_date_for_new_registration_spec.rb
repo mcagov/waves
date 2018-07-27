@@ -1,6 +1,6 @@
 require "rails_helper"
 
-describe "User sets end date for new registration", js: :true do
+xdescribe "User sets end date for new registration", js: :true do
   scenario "in general" do
     visit_name_approved_part_2_submission
 

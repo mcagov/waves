@@ -1,8 +1,8 @@
-- unless Task.new(submission.task).duplicates_certificate?
+- unless DeprecableTask.new(submission.task).duplicates_certificate?
   - registration_date = RegistrationDate.for(submission, RegistrationDate.start_date(submission))
   - approval_f.object.registration_starts_at = registration_date.starts_at.to_s(:datetimepicker)
   - approval_f.object.registration_ends_at = registration_date.ends_at.to_s(:datetimepicker)
-  - if Task.new(submission.task).builds_registration?
+  - if DeprecableTask.new(submission.task).builds_registration?
     .row
       .col-md-12
         = approval_f.input :registration_starts_at,

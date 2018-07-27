@@ -11,13 +11,13 @@ describe Mortgage do
     end
 
     context "when the submission is for a provisional registratioschemn" do
-      let(:submission) { build(:submission, task: :provisional) }
+      let(:submission) { build(:submission, application_type: :provisional) }
 
       it { expect(subject).to eq(["Intent"]) }
     end
 
     context "when the submission is not a new_registration" do
-      let(:submission) { build(:submission, task: :change_vessel) }
+      let(:submission) { build(:submission, application_type: :change_vessel) }
 
       it do
         expect(subject).to eq(["Intent", "Account Current", "Principle Sum"])

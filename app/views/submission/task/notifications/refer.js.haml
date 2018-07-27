@@ -1,0 +1,6 @@
+:plain
+   $("#refer-task .modal-content").html(
+    '#{escape_javascript(
+      render partial: "/submission/task/notifications/refer",
+      locals: { submission: @submission, task: @task })}');
+
